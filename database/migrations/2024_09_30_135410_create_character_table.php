@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->int('strength');
-            $table->int('defence');
-            $table->int('speed');
-            $table->int('intelligence');
-            $table->int('life');
-            $table->int('type_id');
+            $table->integer('strength');
+            $table->integer('defence');
+            $table->integer('speed');
+            $table->integer('intelligence');
+            $table->integer('life');
+            $table->integer('type_id');
             $table->timestamps();
         });
     }
