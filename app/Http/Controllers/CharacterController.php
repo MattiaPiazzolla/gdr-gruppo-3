@@ -39,19 +39,31 @@ class CharacterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        // Validazione del form
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-    
-        // Creazione del nuovo personaggio
-        Character::create($validated);
-    
-        // Reindirizzamento alla home con un messaggio di successo
-        return redirect()->route('home')->with('success', 'Character created successfully!');
-    }
+{
+    // Validazione dei dati
+    $validatedData = $request->validate([
+        'name' => 'required|max:255',
+        'description' => 'required|min:10',
+        'strenght' => 'required|integer|min:1',
+        'defence' => 'required|integer|min:1',
+        'speed' => 'required|integer|min:1',
+        'intelligence' => 'required|integer|min:1',
+        'life' => 'required|integer|min:1',
+        'type_id' => 'required|exists:types,id', // Assicurati che il type_id esista nella tabella types
+    ]);
+
+    // Creazione di un nuovo oggetto Character
+    $new_character = new Character();
+    $new_character->fill($validatedData);
+
+    // Salvataggio del personaggio
+    $new_character->save();
+
+    // Reindirizzamento alla lista dei personaggi con messaggio di successo
+    return redirect()->route('characters.index')->with('success', 'Personaggio aggiunto con successo!');
+}
+
+
 
     /**
      * Display the specified resource.
