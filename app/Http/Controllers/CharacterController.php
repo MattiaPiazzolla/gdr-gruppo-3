@@ -79,7 +79,9 @@ class CharacterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $character = Character::find($id);
+
+        return view('characters.edit', compact('character'));
     }
 
     /**
@@ -91,7 +93,20 @@ class CharacterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $character = Character::find($id);
+
+        $character->update([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'strength' => $request->input('strength'),
+            'defence' => $request->input('defence'),
+            'speed' => $request->input('speed'),
+            'intelligence' => $request->input('intelligence'),
+            'life' => $request->input('life'),
+            'type_id' => $request->input('type_id'),
+        ]);
+
+        return redirect()->route('characters.index');
     }
 
     /**
