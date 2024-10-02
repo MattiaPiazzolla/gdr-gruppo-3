@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('slug');
             $table->string('category',100);
             $table->string('type',100);
-            $table->decimal('weight', 4,2);
-            $table->decimal('cost',5,2);
+            $table->string('weight',10);
+            $table->string('cost',10);
             $table->string('dice',20);
             $table->timestamps();
         });
