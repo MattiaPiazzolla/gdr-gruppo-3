@@ -39,29 +39,24 @@ class CharacterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
-    // Validazione dei dati
-    $validatedData = $request->validate([
-        'name' => 'required|max:255',
-        'description' => 'required|min:10',
-        'strenght' => 'required|integer|min:1',
-        'defence' => 'required|integer|min:1',
-        'speed' => 'required|integer|min:1',
-        'intelligence' => 'required|integer|min:1',
-        'life' => 'required|integer|min:1',
-        'type_id' => 'required|exists:types,id', // Assicurati che il type_id esista nella tabella types
-    ]);
+    {
+        // Crea un nuovo personaggio con i dati dal modulo
+        $character = Character::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'strength' => $request->input('strength'),
+            'defence' => $request->input('defence'),
+            'speed' => $request->input('speed'),
+            'intelligence' => $request->input('intelligence'),
+            'life' => $request->input('life'),
+            'type_id' => $request->input('type_id'),
+        ]);
+       
+        // Reindirizza alla pagina index con un messaggio di successo
+        return redirect()->route('characters.index');
+    }
+    
 
-    // Creazione di un nuovo oggetto Character
-    $new_character = new Character();
-    $new_character->fill($validatedData);
-
-    // Salvataggio del personaggio
-    $new_character->save();
-
-    // Reindirizzamento alla lista dei personaggi con messaggio di successo
-    return redirect()->route('characters.index')->with('success', 'Personaggio aggiunto con successo!');
-}
 
 
 
