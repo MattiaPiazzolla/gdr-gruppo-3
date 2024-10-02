@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CharacterController as CharacterController;
+use App\Http\Controllers\CharacterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +14,6 @@ use App\Http\Controllers\CharacterController as CharacterController;
 |
 */
 
-Route::get('/', [CharacterController::class, 'index'] ) -> name('home');
+
+Route::get('/', [CharacterController::class, 'index'])->name('home');
+Route::resource('characters', CharacterController::class);

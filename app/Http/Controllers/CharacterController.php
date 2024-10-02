@@ -15,11 +15,11 @@ class CharacterController extends Controller
     public function index()
     {
         $characters = Character::all();
-        dd($characters);
-        return view("welcome", compact("characters"));
-
-
+    
+        // Invia i dati alla vista 'caratters.index'
+        return view('characters.index', compact('characters'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -28,7 +28,8 @@ class CharacterController extends Controller
      */
     public function create()
     {
-      return view("character.create");
+        return view("characters.create");
+
     }
 
     /**
@@ -39,7 +40,17 @@ class CharacterController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validazione del form
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+    
+        // Creazione del nuovo personaggio
+        Character::create($validated);
+    
+        // Reindirizzamento alla home con un messaggio di successo
+        return redirect()->route('home')->with('success', 'Character created successfully!');
     }
 
     /**
