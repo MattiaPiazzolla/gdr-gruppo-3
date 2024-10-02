@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 
 class ItemsTableSeeder extends Seeder
@@ -24,8 +25,7 @@ class ItemsTableSeeder extends Seeder
                 'category' => $data[3],
                 'weight' => $data[4],
                 'cost' => $data[5],
-                'damege_dice' => $data[6],
-
+                'dice' => $data[6],
             ]);
         }
         fclose($handle);
