@@ -117,6 +117,10 @@ class CharacterController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $character = Character::find($id);
+
+        $character->delete();
+
+        return redirect()->route('characters.index');
     }
 }
