@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Character;
 
 class CharacterController extends Controller
 {
@@ -13,7 +14,11 @@ class CharacterController extends Controller
      */
     public function index()
     {
-        //
+        $characters = Character::all();
+        dd($characters);
+        return view("welcome", compact("characters"));
+
+
     }
 
     /**
@@ -23,7 +28,7 @@ class CharacterController extends Controller
      */
     public function create()
     {
-        //
+      return view("character.create");
     }
 
     /**
