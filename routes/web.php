@@ -18,4 +18,4 @@ use App\Http\Controllers\ItemController;
 
 Route::get('/', [CharacterController::class, 'index'])->name('home');
 Route::resource('characters', CharacterController::class);
-Route::resource('items', ItemController::class)->name('items');
+Route::resource('items', ItemController::class);
