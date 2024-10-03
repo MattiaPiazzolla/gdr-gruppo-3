@@ -51,9 +51,11 @@ class CharacterController extends Controller
             'life' => $request->input('life'),
             'type_id' => $request->input('type_id'),
         ]);
+
        
         // Reindirizza alla pagina index con un messaggio di successo
         return redirect()->route('characters.index');
+
     }
     
 
@@ -68,7 +70,8 @@ class CharacterController extends Controller
      */
     public function show($id)
     {
-        //
+        $character = Character::find($id);  
+        
     }
 
     /**
