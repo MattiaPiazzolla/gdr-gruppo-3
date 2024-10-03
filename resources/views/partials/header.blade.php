@@ -10,9 +10,9 @@
                         </a>
                     </li>
                     <li class="px-3"><a
-                            class=" text-decoration-none  nav-link {{ Route::currentRouteName() === 'comics.index' || Route::currentRouteName() === 'comics.show' ? 'active' : '' }}"
-                            href="">
-                            comics
+                            class=" text-decoration-none  nav-link {{ Route::currentRouteName() === 'items.index' || Route::currentRouteName() === 'comics.show' ? 'active' : '' }}"
+                            href="{{ route('items.index') }}">
+                            Items
                         </a>
                     </li>
                 </ul>
