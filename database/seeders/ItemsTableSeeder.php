@@ -17,7 +17,14 @@ class ItemsTableSeeder extends Seeder
     public function run()
 {
     if (($handle = fopen(storage_path('app/csv/items.csv'), 'r')) !== false) {
+        $isFirstRow = true; // Booleano di controllo per la prima riga
         while (($data = fgetcsv($handle, 1000, ',')) !== false) {
+            
+            // Salta la prima riga (header)
+            if ($isFirstRow) {
+                $isFirstRow = false; // Cambia il valore per le righe successive
+                continue; // Salta il ciclo corrente e passa alla prossima riga
+            }
             DB::table('items')->insert([
                 'name' => $data[0],
                 'slug' => $data[1],

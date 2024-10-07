@@ -33,6 +33,7 @@
                         <td>{{ $item->cost }}</td>
                         <td>{{ $item->dice }}</td>
                         <td>
+                            <a href="{{ route('items.show', $item->id) }}" class="btn btn-info">Visualizza</a>
                             <a href="{{ route('items.edit', $item->id) }}" class="btn btn-warning">Modifica</a>
                             <form action="{{ route('items.destroy', $item->id) }}" method="POST" style="display:inline;">
                                 @csrf

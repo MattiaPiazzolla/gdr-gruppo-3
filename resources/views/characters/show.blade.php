@@ -2,21 +2,21 @@
 
 @section('content')
     <div class="container mt-3">
-
         <div class="card">
-            <div class="card-header">
+            <div class="card-header bg-black">
                 <div class="row">
                     <div class="col-6 py-2 px-5 d-flex align-items-center justify-content-start" style="height: 75px;">
                         <a href="{{ route('characters.index') }}">
-                            <i class="btn btn-primary bi bi-caret-left-fill me-3 p-0 fw-bolder"></i>
+                            <i class="btn btn-outline-light bi bi-caret-left-fill me-3 p-0 px-1 fw-bolder"></i>
                         </a>
-                        <h2 class="card-title m-0">{{ $character->name }}</h2>
+                        <h2 class="card-title m-0 text-light">{{ $character->name }}</h2>
                     </div>
                     <div class="col-6 py-1 px-5 d-flex align-items-center justify-content-end" style="height: 75px;">
-                        <div class="buttons-card d-flex justify-content-end p-2">
-                            <a href="{{ route('characters.edit', $character->id) }}" class="btn btn-warning">Modifica</a>
-                            <a href="#" class="btn btn-danger ms-3">Cancella</a>
-                        </div>
+                        <a href="{{ route('characters.edit', $character->id) }}" class="btn btn-outline-warning m-1"><i
+                                class="bi bi-pencil-square"></i></a>
+                        <button type="button" class="btn btn-outline-danger m-1 delete-character"
+                            data-character-id="{{ $character->id }}">
+                            <i class="bi bi-trash2-fill"></i>
                     </div>
                 </div>
             </div>
@@ -51,4 +51,5 @@
             </div>
         </div>
     </div>
+    @include('characters.partials.modal_character_delete');
 @endsection
