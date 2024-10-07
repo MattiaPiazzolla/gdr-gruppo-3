@@ -35,7 +35,12 @@
                             <div class="buttons-card d-flex justify-content-around ">
                                 <a href="{{ route('characters.edit', $character->id) }}"
                                     class="btn btn-warning">Modifica</a>
-                                <a href="#" class="btn btn-danger">Cancella</a>
+                                <form action="{{ route('characters.destroy', $character->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Elimina</button>
+                                </form>
                             </div>
                         </div>
                     </div>
