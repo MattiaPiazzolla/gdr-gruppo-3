@@ -71,7 +71,8 @@ class CharacterController extends Controller
     public function show($id)
     {
         $character = Character::find($id);  
-        
+
+       return view ('characters.show', compact ('character') ) ;
     }
 
     /**
