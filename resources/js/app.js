@@ -4,10 +4,10 @@ import '~icons/bootstrap-icons.scss';
 import * as bootstrap from 'bootstrap';
 import.meta.glob([
     '../img/**'
-])
+]);
 
 // Seleziona tutti i bottoni di eliminazione
-const buttons = document.querySelectorAll('.delete-project');
+const buttons = document.querySelectorAll('.delete-character');
 
 // Aggiungi un event listener a ciascun bottone di eliminazione
 buttons.forEach((button) => {
@@ -16,18 +16,18 @@ buttons.forEach((button) => {
 
         // Seleziona la modale
         const modal = document.getElementById('deleteCharacterModal');
-        const bootstrap_modal = new bootstrap.Modal(modal);
+        const bootstrapModal = new bootstrap.Modal(modal);
 
-        // Prendi l'ID del progetto dal data attribute del bottone
-        const chacaterIdId = button.getAttribute('data-character-id');
+        // Prendi l'ID del personaggio dal data attribute del bottone
+        const characterId = button.getAttribute('data-character-id');
 
         // Seleziona il form all'interno della modale
         const form = document.getElementById('deleteForm');
 
-        // Aggiorna l'azione del form con l'URL corretto per eliminare il progetto
-        form.action = `/admin/projects/${chacaterId}`;
+        // Aggiorna l'azione del form con l'URL corretto per eliminare il personaggio
+        form.action = `/characters/${characterId}`;
 
         // Mostra la modale
-        bootstrap_modal.show();
+        bootstrapModal.show();
     });
 });

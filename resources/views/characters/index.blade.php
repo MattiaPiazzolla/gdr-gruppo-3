@@ -35,12 +35,10 @@
                             <div class="buttons-card d-flex justify-content-around ">
                                 <a href="{{ route('characters.edit', $character->id) }}"
                                     class="btn btn-warning">Modifica</a>
-                                <form action="{{ route('characters.destroy', $character->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Elimina</button>
-                                </form>
+                                <button type="button" class="btn btn-danger delete-character"
+                                    data-character-id="{{ $character->id }}">
+                                    Elimina
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -77,4 +75,5 @@
             </tbody>
         </table> --}}
     </div>
+    @include('characters.partials.modal_character_delete');
 @endsection
