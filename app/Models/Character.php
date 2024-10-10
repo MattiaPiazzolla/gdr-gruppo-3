@@ -18,6 +18,11 @@ class Character extends Model
         "life",
         "type_id"
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
         
 
 }

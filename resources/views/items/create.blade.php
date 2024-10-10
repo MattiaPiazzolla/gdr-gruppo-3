@@ -41,7 +41,10 @@
                 <input type="text" name="dice" class="form-control" id="dice" required>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-2">Aggiungi Item</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success mt-2">Aggiungi Item</button>
+                <a href="{{ route('characters.index') }}" class="btn btn-danger mt-3">Annulla</a>
+            </div>
         </form>
     </div>
 @endsection

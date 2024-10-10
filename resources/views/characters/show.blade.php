@@ -30,6 +30,7 @@
                             <h5 class="mt-5 mb-3">Statistiche</h5>
                             <div class="col-6">
 
+                                <p class="fw-bold">Tipo</p>
                                 <p class="fw-bold">Forza</p>
                                 <p class="fw-bold">Difesa</p>
                                 <p class="fw-bold">Velocità</p>
@@ -37,6 +38,7 @@
                                 <p class="fw-bold">Punti Vita</p>
                             </div>
                             <div class="col-6">
+                                <p>{{ $character->type->name ?? 'Non definito' }}</p>
                                 <p>{{ $character->strength }}</p>
                                 <p>{{ $character->defence }}</p>
                                 <p>{{ $character->speed }}</p>
