@@ -38,7 +38,10 @@
                 <label for="type_id">Tipo ID</label>
                 <input type="number" class="form-control" name="type_id" required>
             </div>
-            <button type="submit" class="btn btn-success mt-2">Salva</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success mt-2">Salva</button>
+                <a href="{{ route('characters.index') }}" class="btn btn-danger mt-3">Annulla</a>
+            </div>
         </form>
     </div>
 @endsection

@@ -48,11 +48,16 @@
                         </div>
                     </div>
                     <div class="col-7">
-                        <img src="{{ asset('path/to/your/item/image.jpg') }}" alt="{{ $item->name }}">
+                        @if ($item->image)
+                            <img src="{{ asset('path/to/your/item/image.jpg') }}" alt="{{ $item->name }}">
+                        @else
+                            <img class="card-img-top" src="https://placehold.co/400x400?text=Missing+Img"
+                                alt="{{ $item->name }} Placeholder">
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    {{-- @include('items.partials.modal_item_delete') --}}
+    @include('items.partials.modal_items_delete')
 @endsection

@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Item;
 
+use Illuminate\Support\Str;
+
 class ItemController extends Controller
 {
     /**
@@ -37,8 +39,21 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        $item = Item::create($request->all());
-        return redirect()->route('items.index');
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            
+        ]);
+
+        $item = new Item();
+        $item->name = $request->name;
+        $item->description = $request->description;
+        $item->slug = Str::slug($request->name); 
+        
+        $item->save();
+
+        return redirect()->route('items.index')->with('success', 'Item creato con successo!');
     }
 
     /**
@@ -74,9 +89,30 @@ class ItemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+       
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'type' => 'required|string|max:255',
+            'weight' => 'required|numeric',
+            'cost' => 'required|numeric',
+            'dice' => 'required|string|max:255',
+        ]);
+    
+       
+        $item = Item::findOrFail($id);
+        $item->name = $request->name;
+        $item->category = $request->category;
+        $item->type = $request->type;        
+        $item->weight = $request->weight;    
+        $item->cost = $request->cost;        
+        $item->dice = $request->dice;        
+        $item->slug = Str::slug($request->name);
+        
+        $item->save();
+    
+        return redirect()->route('items.index')->with('success', 'Item aggiornato con successo!');
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -85,6 +121,8 @@ class ItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Item::findOrFail($id);
+        $item->delete();
+        return redirect()->route('items.index');
     }
 }

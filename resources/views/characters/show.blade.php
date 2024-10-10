@@ -17,6 +17,7 @@
                         <button type="button" class="btn btn-outline-danger m-1 delete-character"
                             data-character-id="{{ $character->id }}">
                             <i class="bi bi-trash2-fill"></i>
+                        </button>
                     </div>
                 </div>
             </div>

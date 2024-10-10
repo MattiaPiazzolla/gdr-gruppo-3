@@ -49,7 +49,10 @@
                 <input type="number" class="form-control" name="type_id" value="{{ $character->type_id }}" required>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Aggiorna Personaggio</button>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success mt-3">Aggiorna Personaggio</button>
+                <a href="{{ route('characters.index') }}" class="btn btn-danger mt-3">Annulla</a>
+            </div>
         </form>
     </div>
 @endsection
