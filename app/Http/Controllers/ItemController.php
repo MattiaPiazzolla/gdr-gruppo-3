@@ -38,23 +38,29 @@ class ItemController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'required|string',
-            
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'category' => 'required|string|max:100',
+        'type' => 'required|string|max:255',
+        'weight' => 'required|numeric',
+        'cost' => 'required|numeric',
+        'dice' => 'required|string|max:255',
+    ]);
 
-        $item = new Item();
-        $item->name = $request->name;
-        $item->description = $request->description;
-        $item->slug = Str::slug($request->name); 
-        
-        $item->save();
+    $item = new Item();
+    $item->name = $request->name;
+    $item->category = $request->category;
+    $item->type = $request->type;
+    $item->weight = $request->weight;
+    $item->cost = $request->cost;
+    $item->dice = $request->dice;
+    $item->slug = Str::slug($request->name);
 
-        return redirect()->route('items.index')->with('success', 'Item creato con successo!');
-    }
+    $item->save();
+
+    return redirect()->route('items.index')->with('success', 'Item creato con successo!');
+}
 
     /**
      * Display the specified resource.
@@ -64,10 +70,9 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        $item = Item::find($id);
+        $item = Item::findOrFail($id);
         return view('items.show', compact('item'));
     }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -92,7 +97,7 @@ class ItemController extends Controller
        
         $request->validate([
             'name' => 'required|string|max:255',
-            'category' => 'required|string|max:255',
+
             'type' => 'required|string|max:255',
             'weight' => 'required|numeric',
             'cost' => 'required|numeric',
@@ -102,7 +107,6 @@ class ItemController extends Controller
        
         $item = Item::findOrFail($id);
         $item->name = $request->name;
-        $item->category = $request->category;
         $item->type = $request->type;        
         $item->weight = $request->weight;    
         $item->cost = $request->cost;        
@@ -123,6 +127,6 @@ class ItemController extends Controller
     {
         $item = Item::findOrFail($id);
         $item->delete();
-        return redirect()->route('items.index');
+        return redirect()->route('items.index')->with('success', 'Oggetto eliminato con successo!');
     }
 }

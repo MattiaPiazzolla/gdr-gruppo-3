@@ -7,13 +7,19 @@
                         <li class="me-3"><a
                                 class=" text-decoration-none nav-link {{ Route::currentRouteName() === 'characters.index' || Route::currentRouteName() === 'characters.show' || Route::currentRouteName() === 'characters.edit' || Route::currentRouteName() === 'characters.create' ? 'active' : '' }}"
                                 href="{{ route('characters.index') }}">
-                                characters
+                                Personaggi
                             </a>
                         </li>
-                        <li class=""><a
+                        <li class="me-3"><a
                                 class=" text-decoration-none  nav-link {{ Route::currentRouteName() === 'items.index' || Route::currentRouteName() === 'items.show' || Route::currentRouteName() === 'items.edit' || Route::currentRouteName() === 'items.create' ? 'active' : '' }}"
                                 href="{{ route('items.index') }}">
-                                Items
+                                Oggetti
+                            </a>
+                        </li>
+                        <li class="me-3"><a
+                                class=" text-decoration-none  nav-link {{ Route::currentRouteName() === 'types.index' || Route::currentRouteName() === 'types.show' || Route::currentRouteName() === 'types.edit' || Route::currentRouteName() === 'types.create' ? 'active' : '' }}"
+                                href="{{ route('types.index') }}">
+                                Tipologie
                             </a>
                         </li>
                     </ul>

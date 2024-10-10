@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\TypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,3 +20,4 @@ use App\Http\Controllers\ItemController;
 Route::get('/', [CharacterController::class, 'index'])->name('home');
 Route::resource('characters', CharacterController::class);
 Route::resource('items', ItemController::class);
+Route::resource('types', TypeController::class);
