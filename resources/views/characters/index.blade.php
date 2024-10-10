@@ -22,8 +22,9 @@
                     <div class="card" style="width: 18rem;">
                         <a href="{{ route('characters.show', $character->id) }}" class="text-decoration-none text-dark ">
                             <h5 class="card-title text-center py-4">{{ $character->name }}</h5>
-                            <img class="card-img-top" src="{{ asset('characters_img/barbarian.gif') }}"
-                                alt="Card image cap">
+                            <img class="card-img-top img-fluid"
+                                src="{{ asset($character->type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
+                                alt="{{ $character->name }}">
                         </a>
                         <div class="card-body">
                             <p class="card-text">{{ $character->description }}</p>

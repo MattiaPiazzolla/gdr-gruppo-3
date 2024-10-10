@@ -48,7 +48,8 @@
                         </div>
                     </div>
                     <div class="col-7">
-                        <img src="{{ asset('characters_img/barbarian.gif') }}" alt="">
+                        <img src="{{ asset($character->type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
+                            alt="{{ $character->name }}" class=" img-fluid">
                     </div>
                 </div>
             </div>
