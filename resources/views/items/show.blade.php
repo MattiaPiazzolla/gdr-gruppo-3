@@ -49,7 +49,7 @@
                     </div>
                     <div class="col-7">
                         @if ($item->image)
-                            <img src="{{ asset('path/to/your/item/image.jpg') }}" alt="{{ $item->name }}">
+                            <img src="{{ asset('item/image.jpg') }}" alt="{{ $item->name }}">
                         @else
                             <img class="card-img-top" src="https://placehold.co/400x400?text=Missing+Img"
                                 alt="{{ $item->name }} Placeholder">

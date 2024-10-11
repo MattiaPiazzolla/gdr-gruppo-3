@@ -44,9 +44,34 @@
                 <input type="number" class="form-control" name="life" value="{{ $character->life }}" required>
             </div>
 
-            <div class="form-group">
-                <label for="type_id">ID Tipo</label>
-                <input type="number" class="form-control" name="type_id" value="{{ $character->type_id }}" required>
+            <div class="form-group mt-3">
+                <label for="type_id">Tipo</label>
+                <select class="form-control" name="type_id" required>
+                    <option value="">Seleziona un tipo</option>
+                    @foreach ($types as $type)
+                        <option value="{{ $type->id }}" {{ $character->type_id == $type->id ? 'selected' : '' }}>
+                            {{ $type->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group mt-3">
+                <label>Seleziona un Oggetto:</label>
+                <div class="row">
+                    @foreach ($items as $item)
+                        <div class="col-2 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="item_ids[]"
+                                    value="{{ $item->id }}" id="item_{{ $item->id }}"
+                                    {{ in_array($item->id, $character->items->pluck('id')->toArray()) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="item_{{ $item->id }}">
+                                    {{ $item->name }}
+                                </label>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
             </div>
 
             <div class="d-flex justify-content-between">

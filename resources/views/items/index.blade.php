@@ -28,8 +28,7 @@
                             <h5 class="card-title text-center py-4">{{ $item->name }}</h5>
 
                             @if ($item->image)
-                                <img class="card-img-top" src="{{ asset('path/to/your/item/image.jpg') }}"
-                                    alt="{{ $item->name }}">
+                                <img class="card-img-top" src="{{ asset('item/image.jpg') }}" alt="{{ $item->name }}">
                             @else
                                 <img class="card-img-top" src="https://placehold.co/400x400?text=Missing+Img"
                                     alt="{{ $item->name }} Placeholder">

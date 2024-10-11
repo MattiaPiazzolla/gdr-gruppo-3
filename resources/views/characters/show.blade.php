@@ -52,12 +52,12 @@
                             alt="{{ $character->name }}" class=" img-fluid">
                     </div>
                     <div class="col-12">
-                        <h3>Items Associati</h3>
+                        <h3>Oggetti Associati</h3>
                         <ul>
                             @forelse ($character->items as $item)
                                 <li>{{ $item->name }}</li>
                             @empty
-                                <li>Nessun item associato.</li>
+                                <li>Nessun Oggetto associato.</li>
                             @endforelse
                         </ul>
                     </div>

@@ -4,7 +4,7 @@
     <div class="container mt-5">
         <h1>Modifica Tipo</h1>
 
-        <form action="{{ route('types.update', $type->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('types.update', $type->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -18,11 +18,12 @@
             </div>
 
             <div class="form-group">
-                <label for="image">Immagine</label>
-                <input type="file" class="form-control" name="image">
+                <label for="image">Link Immagine</label>
+                <input type="text" class="form-control" name="image" value="{{ $type->image }}"
+                    placeholder="Inserisci un link all'immagine">
                 @if ($type->image)
                     <p>Immagine attuale:</p>
-                    <img src="{{ asset($type->image) }}" alt="{{ $type->name }}" width="150">
+                    <img src="{{ $type->image }}" alt="{{ $type->name }}" width="200">
                 @endif
             </div>
 

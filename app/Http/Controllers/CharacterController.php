@@ -32,7 +32,7 @@ class CharacterController extends Controller
 {
     $types = Type::all(); 
     $items = Item::all();
-    return view("characters.create", compact('types','items')); // Passa i tipi alla vista
+    return view("characters.create", compact('types','items')); 
 }
 
     /**
@@ -55,8 +55,10 @@ class CharacterController extends Controller
             'type_id' => $request->input('type_id'),
         ]);
 
-       
-        // Reindirizza alla pagina index con un messaggio di successo
+        if ($request->has('item_ids')) {
+            $character->items()->attach($request->input('item_ids'));
+        }
+        
         return redirect()->route('characters.index');
 
     }
@@ -91,9 +93,11 @@ class CharacterController extends Controller
     public function edit($id)
     {
         $character = Character::find($id);
+        $types = Type::all(); 
+        $items = Item::all();
         
 
-        return view('characters.edit', compact('character', 'items'));
+        return view('characters.edit', compact('character', 'types','items'));
     }
 
     /**
@@ -117,6 +121,12 @@ class CharacterController extends Controller
             'life' => $request->input('life'),
             'type_id' => $request->input('type_id'),
         ]);
+
+        if ($request->has('item_ids')) {
+            $character->items()->sync($request->input('item_ids'));
+        } else {
+            $character->items()->sync([]);
+        }
 
         return redirect()->route('characters.index');
     }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CharacterController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\TypeController;
@@ -17,7 +18,10 @@ use App\Http\Controllers\TypeController;
 */
 
 
-Route::get('/', [CharacterController::class, 'index'])->name('home');
+
+Route::get('/', [HomeController::class, 'index'])->name('home'); // Homepage dedicata
+
+
 Route::resource('characters', CharacterController::class);
 Route::resource('items', ItemController::class);
 Route::resource('types', TypeController::class);
