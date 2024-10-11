@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Character;
+use App\Models\Item; 
+use App\Models\Type;
 
 class CharacterController extends Controller
 {
@@ -16,7 +18,7 @@ class CharacterController extends Controller
     {
         $characters = Character::all();
     
-        // Invia i dati alla vista 'caratters.index'
+       
         return view('characters.index', compact('characters'));
     }
     
@@ -27,10 +29,11 @@ class CharacterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view("characters.create");
-
-    }
+{
+    $types = Type::all(); 
+    $items = Item::all();
+    return view("characters.create", compact('types','items')); // Passa i tipi alla vista
+}
 
     /**
      * Store a newly created resource in storage.
@@ -70,9 +73,13 @@ class CharacterController extends Controller
      */
     public function show($id)
     {
-        $character = Character::find($id);  
+        // Carica il character e gli item associati
+        $character = Character::with('items')->findOrFail($id);
 
-       return view ('characters.show', compact ('character') ) ;
+        // Se vuoi ottenere anche tutti gli item disponibili
+        $items = Item::all();
+
+        return view('characters.show', compact('character', 'items'));
     }
 
     /**
@@ -84,8 +91,9 @@ class CharacterController extends Controller
     public function edit($id)
     {
         $character = Character::find($id);
+        
 
-        return view('characters.edit', compact('character'));
+        return view('characters.edit', compact('character', 'items'));
     }
 
     /**

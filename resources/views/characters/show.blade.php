@@ -51,6 +51,16 @@
                         <img src="{{ asset($character->type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
                             alt="{{ $character->name }}" class=" img-fluid">
                     </div>
+                    <div class="col-12">
+                        <h3>Items Associati</h3>
+                        <ul>
+                            @forelse ($character->items as $item)
+                                <li>{{ $item->name }}</li>
+                            @empty
+                                <li>Nessun item associato.</li>
+                            @endforelse
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

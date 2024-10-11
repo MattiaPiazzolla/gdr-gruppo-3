@@ -18,4 +18,9 @@ class Item extends Model
         'cost',
         'dice',
     ];
+
+    public function characters()
+    {
+        return $this->belongsToMany(Character::class, 'character_item');
+    }
 }
