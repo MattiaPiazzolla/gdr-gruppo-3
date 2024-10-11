@@ -6,7 +6,7 @@
         <div class="jumbotron text-center">
             <h1 class="display-4">Benvenuto nella tua Area GDR!</h1>
             <p class="lead">Gestisci personaggi, oggetti e tipi con facilità.</p>
-            <a class="btn btn-dark btn-lg" href="{{ route('characters.index') }}" role="button">Vedi i Personaggi</a>
+
         </div>
 
 
