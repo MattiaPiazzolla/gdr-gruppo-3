@@ -45,26 +45,30 @@ class CharacterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        // Crea un nuovo personaggio con i dati dal modulo
-        $character = Character::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'strength' => $request->input('strength'),
-            'defence' => $request->input('defence'),
-            'speed' => $request->input('speed'),
-            'intelligence' => $request->input('intelligence'),
-            'life' => $request->input('life'),
-            'type_id' => $request->input('type_id'),
-        ]);
+{
+    
+    $character = Character::create([
+        'name' => $request->input('name'),
+        'description' => $request->input('description'),
+        'strength' => $request->input('strength'),
+        'defence' => $request->input('defence'),
+        'speed' => $request->input('speed'),
+        'intelligence' => $request->input('intelligence'),
+        'life' => $request->input('life'),
+        'type_id' => $request->input('type_id'),
+    ]);
 
-        if ($request->has('item_ids')) {
-            $character->items()->attach($request->input('item_ids'));
+    if ($request->has('item_ids')) {
+        $items = $request->input('item_ids');
+        $quantities = $request->input('quantities'); 
+
+        foreach ($items as $key => $itemId) {
+            $character->items()->attach($itemId, ['quantity' => $quantities[$key]]);
         }
-        
-        return redirect()->route('characters.index');
-
     }
+
+    return redirect()->route('characters.index');
+}
     
 
 
@@ -111,28 +115,39 @@ class CharacterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        $character = Character::find($id);
+{
+    $character = Character::find($id);
 
-        $character->update([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'strength' => $request->input('strength'),
-            'defence' => $request->input('defence'),
-            'speed' => $request->input('speed'),
-            'intelligence' => $request->input('intelligence'),
-            'life' => $request->input('life'),
-            'type_id' => $request->input('type_id'),
-        ]);
+    // Aggiorna i dettagli del personaggio
+    $character->update([
+        'name' => $request->input('name'),
+        'description' => $request->input('description'),
+        'strength' => $request->input('strength'),
+        'defence' => $request->input('defence'),
+        'speed' => $request->input('speed'),
+        'intelligence' => $request->input('intelligence'),
+        'life' => $request->input('life'),
+        'type_id' => $request->input('type_id'),
+    ]);
 
-        if ($request->has('item_ids')) {
-            $character->items()->sync($request->input('item_ids'));
-        } else {
-            $character->items()->sync([]);
+    // Gestisci gli oggetti e le quantità
+    if ($request->has('items')) {
+        $syncData = [];
+        foreach ($request->input('items') as $itemData) {
+            if (isset($itemData['id'])) {
+                $syncData[$itemData['id']] = ['quantity' => $itemData['quantity']];
+            }
         }
 
-        return redirect()->route('characters.index');
+        // Sincronizza oggetti e quantità
+        $character->items()->sync($syncData);
+    } else {
+        // Se nessun oggetto è stato selezionato, rimuovili tutti
+        $character->items()->sync([]);
     }
+
+    return redirect()->route('characters.index');
+}
 
     /**
      * Remove the specified resource from storage.

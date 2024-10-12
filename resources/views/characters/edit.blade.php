@@ -57,17 +57,27 @@
             </div>
 
             <div class="form-group mt-3">
-                <label>Seleziona un Oggetto:</label>
+                <label>Seleziona Oggetti e Quantità:</label>
                 <div class="row">
                     @foreach ($items as $item)
-                        <div class="col-2 mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="item_ids[]"
+                        @php
+
+                            $existingItem = $character->items->where('id', $item->id)->first();
+                            $quantity = $existingItem ? $existingItem->pivot->quantity : 1;
+                        @endphp
+
+                        <div class="col-4 mb-3">
+                            <div class="d-flex align-items-center">
+                                <input class="form-check-input me-2" type="checkbox" name="items[{{ $item->id }}][id]"
                                     value="{{ $item->id }}" id="item_{{ $item->id }}"
-                                    {{ in_array($item->id, $character->items->pluck('id')->toArray()) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="item_{{ $item->id }}">
+                                    {{ $existingItem ? 'checked' : '' }}>
+
+                                <label class="form-check-label me-3" for="item_{{ $item->id }}">
                                     {{ $item->name }}
                                 </label>
+
+                                <input type="number" class="form-control" name="items[{{ $item->id }}][quantity]"
+                                    value="{{ $quantity }}" min="1" style="width: 70px;">
                             </div>
                         </div>
                     @endforeach

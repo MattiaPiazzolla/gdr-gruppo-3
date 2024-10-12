@@ -19,8 +19,11 @@ class Item extends Model
         'dice',
     ];
 
+   
     public function characters()
     {
-        return $this->belongsToMany(Character::class, 'character_item');
+        return $this->belongsToMany(Character::class, 'character_item')
+                    ->withPivot('quantity')
+                    ->withTimestamps();
     }
 }

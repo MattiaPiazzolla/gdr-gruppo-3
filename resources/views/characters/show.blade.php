@@ -55,7 +55,7 @@
                         <h3>Inventario</h3>
                         <ul class="list-unstyled">
                             @forelse ($character->items as $item)
-                                <li>{{ $item->name }}</li>
+                                <li>{{ $item->name }} - X{{ $item->pivot->quantity }}</li>
                             @empty
                                 <li>Nessun Oggetto.</li>
                             @endforelse

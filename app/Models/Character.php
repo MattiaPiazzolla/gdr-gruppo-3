@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Character extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         "name",
         "description",
@@ -19,15 +20,17 @@ class Character extends Model
         "type_id"
     ];
 
+    
     public function type()
     {
         return $this->belongsTo(Type::class);
     }
 
+    
     public function items()
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Item::class)
+                    ->withPivot('quantity') 
+                    ->withTimestamps(); 
     }
-        
-
 }
