@@ -19,8 +19,8 @@ use App\Http\Controllers\TypeController;
 
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home'); // Homepage dedicata
-
+Route::get('/', [HomeController::class, 'index'])->name('home'); 
+Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 Route::resource('characters', CharacterController::class);
 Route::resource('items', ItemController::class);

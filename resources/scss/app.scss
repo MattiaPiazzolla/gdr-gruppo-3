@@ -19,11 +19,25 @@ header{
     }
 }
 
-.headerCharacter{
-    padding: 10px;
-}
-
 .img-type{
     width: 100%;
     aspect-ratio: 1/1;
+}
+
+.char_img_index{
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+.btn{
+    min-width: 100px;
+}
+
+.card_home_custom{
+    min-height: 600px;
+}
+
+.btn.active {
+    background-color: #000;
+    color: white;
 }

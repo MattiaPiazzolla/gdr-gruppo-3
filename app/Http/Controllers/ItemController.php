@@ -15,11 +15,16 @@ class ItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $items = Item::all();
-        return view('items.index', compact('items'));
-    }
+    public function index(Request $request)
+{
+    $search = $request->input('search');
+
+    $items = Item::when($search, function($query, $search) {
+        return $query->where('name', 'like', "%{$search}%");
+    })->get();
+
+    return view('items.index', compact('items'));
+}
 
     /**
      * Show the form for creating a new resource.

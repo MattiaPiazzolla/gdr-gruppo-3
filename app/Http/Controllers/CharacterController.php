@@ -14,13 +14,16 @@ class CharacterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $characters = Character::all();
-    
-       
-        return view('characters.index', compact('characters'));
-    }
+    public function index(Request $request)
+{
+    $search = $request->input('search');
+
+    $characters = Character::when($search, function($query, $search) {
+        return $query->where('name', 'like', "%{$search}%");
+    })->get();
+
+    return view('characters.index', compact('characters'));
+}
     
 
     /**

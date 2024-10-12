@@ -13,11 +13,16 @@ class TypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $types = Type::all();
-        return view('types.index', compact('types'));
-    }
+    public function index(Request $request)
+{
+    $search = $request->input('search');
+
+    $types = Type::when($search, function($query, $search) {
+        return $query->where('name', 'like', "%{$search}%");
+    })->get();
+
+    return view('types.index', compact('types'));
+}
 
     /**
      * Show the form for creating a new resource.

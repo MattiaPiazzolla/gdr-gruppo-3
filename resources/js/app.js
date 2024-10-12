@@ -56,3 +56,27 @@ buttonsType.forEach((button) => {
         showModal('deleteTypeModal', `/types/${typeId}`, 'deleteTypeForm'); 
     });
 });
+
+
+// SEZIOINE TOGGLE VISTA CHARATER
+
+        const showGridButton = document.getElementById('showGrid');
+        const showTableButton = document.getElementById('showTable');
+
+        showTableButton.addEventListener('click', function() {
+            document.getElementById('gridView').style.display = 'none';   
+            document.getElementById('tableView').style.display = 'block'; 
+
+            showTableButton.classList.add('active');
+            showGridButton.classList.remove('active');
+        });
+
+        
+        showGridButton.addEventListener('click', function() {
+            document.getElementById('gridView').style.display = 'flex';  
+            document.getElementById('tableView').style.display = 'none'; 
+
+            
+            showGridButton.classList.add('active');
+            showTableButton.classList.remove('active');
+        });
