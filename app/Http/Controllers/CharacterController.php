@@ -46,25 +46,31 @@ class CharacterController extends Controller
      */
     public function store(Request $request)
     {
-        $character = Character::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'strength' => $request->input('strength'),
-            'defence' => $request->input('defence'),
-            'speed' => $request->input('speed'),
-            'intelligence' => $request->input('intelligence'),
-            'life' => $request->input('life'),
-            'type_id' => $request->input('type_id'),
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'strength' => 'required|integer',
+            'defence' => 'required|integer',
+            'speed' => 'required|integer',
+            'intelligence' => 'required|integer',
+            'life' => 'required|integer',
+            'type_id' => 'required|exists:types,id',
+            'items' => 'array', 
+            'items.*.id' => 'required|exists:items,id', 
+            'items.*.quantity' => 'required|integer|min:1', 
         ]);
     
-        if ($request->has('item_ids')) {
-            foreach ($request->input('item_ids') as $itemId) {
-                $quantity = $request->input("quantities.$itemId", 1); 
-                $character->items()->attach($itemId, ['quantity' => $quantity]);
+        
+        $character = Character::create($request->only(['name', 'description', 'strength', 'defence', 'speed', 'intelligence', 'life', 'type_id']));
+    
+        
+        if ($request->has('items')) {
+            foreach ($request->items as $item) {
+                $character->items()->attach($item['id'], ['quantity' => $item['quantity']]);
             }
         }
     
-        return redirect()->route('characters.index');
+        return redirect()->route('characters.index')->with('success', 'Personaggio creato con successo!');
     }
     
 
@@ -111,35 +117,27 @@ class CharacterController extends Controller
      */
     public function update(Request $request, $id)
 {
-    $character = Character::find($id);
+    $character = Character::findOrFail($id);
+    
+    $character->name = $request->name;
+    $character->description = $request->description;
+    $character->strength = $request->strength;
+    $character->defence = $request->defence;
+    $character->speed = $request->speed;
+    $character->intelligence = $request->intelligence;
+    $character->life = $request->life;
+    $character->type_id = $request->type_id;
+    $character->save();
 
+    $items = $request->input('items', []);
+    
+    $character->items()->detach();
 
-    $character->update([
-        'name' => $request->input('name'),
-        'description' => $request->input('description'),
-        'strength' => $request->input('strength'),
-        'defence' => $request->input('defence'),
-        'speed' => $request->input('speed'),
-        'intelligence' => $request->input('intelligence'),
-        'life' => $request->input('life'),
-        'type_id' => $request->input('type_id'),
-    ]);
-
-
-    if ($request->has('items')) {
-        $syncData = [];
-        foreach ($request->input('items') as $itemData) {
-            if (isset($itemData['id'])) {
-                $syncData[$itemData['id']] = ['quantity' => $itemData['quantity']];
-            }
-        }
-
-        $character->items()->sync($syncData);
-    } else {
-        $character->items()->sync([]);
+    foreach ($items as $item) {
+        $character->items()->attach($item['id'], ['quantity' => $item['quantity']]);
     }
 
-    return redirect()->route('characters.index');
+    return redirect()->route('characters.index')->with('success', 'Personaggio aggiornato con successo!');
 }
 
     /**

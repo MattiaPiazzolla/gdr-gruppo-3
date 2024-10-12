@@ -80,3 +80,6 @@ buttonsType.forEach((button) => {
             showGridButton.classList.add('active');
             showTableButton.classList.remove('active');
         });
+
+
+        
