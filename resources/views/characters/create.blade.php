@@ -46,7 +46,7 @@
             </div>
 
             <div class="form-group mt-3">
-                <label>Seleziona un Oggetto:</label>
+                <label>Seleziona Oggetti e quantità:</label>
                 <div class="row">
                     @foreach ($items as $item)
                         <div class="col-2 mb-3">
@@ -56,6 +56,8 @@
                                 <label class="form-check-label" for="item_{{ $item->id }}">
                                     {{ $item->name }}
                                 </label>
+                                <input type="number" class="form-control mt-1" name="quantities[{{ $item->id }}]"
+                                    min="1" value="1" style="width: 80%;">
                             </div>
                         </div>
                     @endforeach

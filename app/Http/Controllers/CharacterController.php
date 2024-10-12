@@ -45,30 +45,27 @@ class CharacterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-{
+    {
+        $character = Character::create([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'strength' => $request->input('strength'),
+            'defence' => $request->input('defence'),
+            'speed' => $request->input('speed'),
+            'intelligence' => $request->input('intelligence'),
+            'life' => $request->input('life'),
+            'type_id' => $request->input('type_id'),
+        ]);
     
-    $character = Character::create([
-        'name' => $request->input('name'),
-        'description' => $request->input('description'),
-        'strength' => $request->input('strength'),
-        'defence' => $request->input('defence'),
-        'speed' => $request->input('speed'),
-        'intelligence' => $request->input('intelligence'),
-        'life' => $request->input('life'),
-        'type_id' => $request->input('type_id'),
-    ]);
-
-    if ($request->has('item_ids')) {
-        $items = $request->input('item_ids');
-        $quantities = $request->input('quantities'); 
-
-        foreach ($items as $key => $itemId) {
-            $character->items()->attach($itemId, ['quantity' => $quantities[$key]]);
+        if ($request->has('item_ids')) {
+            foreach ($request->input('item_ids') as $itemId) {
+                $quantity = $request->input("quantities.$itemId", 1); 
+                $character->items()->attach($itemId, ['quantity' => $quantity]);
+            }
         }
+    
+        return redirect()->route('characters.index');
     }
-
-    return redirect()->route('characters.index');
-}
     
 
 
@@ -82,10 +79,8 @@ class CharacterController extends Controller
      */
     public function show($id)
     {
-        // Carica il character e gli item associati
         $character = Character::with('items')->findOrFail($id);
 
-        // Se vuoi ottenere anche tutti gli item disponibili
         $items = Item::all();
 
         return view('characters.show', compact('character', 'items'));
@@ -118,7 +113,7 @@ class CharacterController extends Controller
 {
     $character = Character::find($id);
 
-    // Aggiorna i dettagli del personaggio
+
     $character->update([
         'name' => $request->input('name'),
         'description' => $request->input('description'),
@@ -130,7 +125,7 @@ class CharacterController extends Controller
         'type_id' => $request->input('type_id'),
     ]);
 
-    // Gestisci gli oggetti e le quantità
+
     if ($request->has('items')) {
         $syncData = [];
         foreach ($request->input('items') as $itemData) {
@@ -139,10 +134,8 @@ class CharacterController extends Controller
             }
         }
 
-        // Sincronizza oggetti e quantità
         $character->items()->sync($syncData);
     } else {
-        // Se nessun oggetto è stato selezionato, rimuovili tutti
         $character->items()->sync([]);
     }
 
