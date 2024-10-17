@@ -60,14 +60,32 @@
                         @endif
                     </div>
                     <div class="col-12">
-                        <h3>Inventario</h3>
-                        <ul class="list-unstyled">
-                            @forelse ($character->items as $item)
-                                <li>{{ $item->name }} - X{{ $item->pivot->quantity }}</li>
-                            @empty
-                                <li>Nessun Oggetto.</li>
-                            @endforelse
-                        </ul>
+                        <div class="row">
+                            <div class="col-5">
+                                <h3>Inventario</h3>
+                                <ul class="list-unstyled">
+                                    @forelse ($character->items as $item)
+                                        <li>{{ $item->name }} - X{{ $item->pivot->quantity }}</li>
+                                    @empty
+                                        <li>Nessun Oggetto.</li>
+                                    @endforelse
+                                </ul>
+                            </div>
+                            <div class="col-7">
+                                <div class="row">
+                                    @forelse ($character->items as $item)
+                                        <div class="col-2 g-0">
+                                            <div class="card">
+                                                <img class="item_show_img"
+                                                    src="{{ asset('img/Items_icons/' . $item->name . '.png') }}"
+                                                    alt="{{ $item->name }}">
+                                            </div>
+                                        </div>
+                                    @empty
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
