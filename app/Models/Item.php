@@ -17,6 +17,7 @@ class Item extends Model
         'weight',
         'cost',
         'dice',
+        'image'
     ];
 
    

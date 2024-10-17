@@ -38,7 +38,7 @@
                                 <p class="fw-bold">Dadi</p>
                             </div>
                             <div class="col-6">
-                                <p>{{ $item->slug }}</p>
+                                <p>{{ $item->name }}</p>
                                 <p>{{ $item->type }}</p>
                                 <p>{{ $item->category }}</p>
                                 <p>{{ $item->weight }}</p>
@@ -48,13 +48,10 @@
                         </div>
                     </div>
                     <div class="col-7">
-                        @if ($item->image)
-                            <img src="{{ asset('item/image.jpg') }}" alt="{{ $item->name }}">
-                        @else
-                            <img class="card-img-top" src="https://placehold.co/400x400?text=Missing+Img"
-                                alt="{{ $item->name }} Placeholder">
-                        @endif
+                        <img class="item_show_img" src="{{ asset('img/Items_icons/' . $item->name . '.png') }}"
+                            alt="{{ $item->name }}">
                     </div>
+
                 </div>
             </div>
         </div>

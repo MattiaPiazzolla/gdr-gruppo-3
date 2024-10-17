@@ -20,7 +20,7 @@
                                     class="text-decoration-none text-dark">
                                     <h3 class="card-title text-center py-4">{{ $character->name }}</h3>
                                     <img class="card-img-top img-fluid"
-                                        src="{{ asset($character->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
+                                        src="{{ asset('img/character_images/' . $character->name . '.webp') }}"
                                         alt="{{ $character->name }}">
                                 </a>
                             </div>
@@ -37,8 +37,7 @@
                             <div class="card d-flex flex-column justify-content-between" style="width: 18rem;">
                                 <a href="{{ route('items.show', $item->id) }}" class="text-decoration-none text-dark">
                                     <h3 class="card-title text-center py-4">{{ $item->name }}</h3>
-                                    <img class="card-img-top img-fluid"
-                                        src="{{ asset($item->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
+                                    <img class="item_show_img" src="{{ asset('img/Items_icons/' . $item->name . '.png') }}"
                                         alt="{{ $item->name }}">
                                 </a>
                             </div>
@@ -55,7 +54,7 @@
                             <div class="card d-flex flex-column justify-content-between" style="width: 18rem;">
                                 <a href="{{ route('types.show', $type->id) }}" class="text-decoration-none text-dark">
                                     <h3 class="card-title text-center py-4">{{ $type->name }}</h3>
-                                    <img class="card-img-top img-fluid"
+                                    <img class="card-img-top img-type img-fluid"
                                         src="{{ asset($type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
                                         alt="{{ $type->name }}">
                                 </a>

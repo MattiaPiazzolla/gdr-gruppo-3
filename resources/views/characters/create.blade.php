@@ -4,41 +4,83 @@
     <div class="container mt-5">
         <h1>Crea Personaggio</h1>
 
-        <form id="character-form" action="{{ route('characters.store') }}" method="POST">
+        <!-- Mostra gli errori generali -->
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form id="character-form" action="{{ route('characters.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="name">Nome</label>
-                <input type="text" class="form-control" name="name" required>
+                <input type="text" class="form-control" name="name" required value="{{ old('name') }}">
+                @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="description">Descrizione</label>
-                <input type="text" class="form-control" name="description" required>
+                <input type="text" class="form-control" name="description" required value="{{ old('description') }}">
+                @error('description')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="strength">Forza</label>
-                <input type="number" class="form-control" name="strength" required>
+                <input type="number" class="form-control" name="strength" required value="{{ old('strength') }}">
+                @error('strength')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="defence">Difesa</label>
-                <input type="number" class="form-control" name="defence" required>
+                <input type="number" class="form-control" name="defence" required value="{{ old('defence') }}">
+                @error('defence')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="speed">Velocità</label>
-                <input type="number" class="form-control" name="speed" required>
+                <input type="number" class="form-control" name="speed" required value="{{ old('speed') }}">
+                @error('speed')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="intelligence">Intelligenza</label>
-                <input type="number" class="form-control" name="intelligence" required>
+                <input type="number" class="form-control" name="intelligence" required value="{{ old('intelligence') }}">
+                @error('intelligence')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="life">Vita</label>
-                <input type="number" class="form-control" name="life" required>
+                <input type="number" class="form-control" name="life" required value="{{ old('life') }}">
+                @error('life')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <!-- Immagine -->
+            <div class="form-group">
+                <label for="image">Immagine del personaggio</label>
+                <input type="file" name="image" class="form-control" accept=".png, .webp">
+                <small class="form-text text-muted">Carica un'immagine in formato .png o .webp</small>
+                @error('image')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="form-group mt-3">
@@ -46,9 +88,14 @@
                 <select class="form-control" name="type_id" required>
                     <option value="">Seleziona un tipo</option>
                     @foreach ($types as $type)
-                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                        <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>
+                            {{ $type->name }}
+                        </option>
                     @endforeach
                 </select>
+                @error('type_id')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="row mt-3">

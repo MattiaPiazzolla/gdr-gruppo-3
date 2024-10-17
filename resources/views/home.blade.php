@@ -4,7 +4,7 @@
     <div class="container my-5">
         <div class="headerCharacter text-center">
             <h1 class="my-3">GDR</h1>
-            <h3>Benvenuto nella tua area di Gestion</h3>
+            <h3>Benvenuto nella tua area di gestione</h3>
         </div>
         <div class="d-flex flex-column justify-content-center align-content-center mt-5">
             <form action="{{ route('search') }}" method="GET" class="w-100 mb-5">

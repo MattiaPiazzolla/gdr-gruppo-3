@@ -13,7 +13,7 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('items.store') }}" method="POST">
+        <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label for="name">Nome</label>
@@ -48,6 +48,11 @@
             <div class="form-group">
                 <label for="dice">Dadi</label>
                 <input type="text" name="dice" class="form-control" id="dice" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image">Carica un'immagine</label>
+                <input type="file" name="image" class="form-control-file" id="image">
             </div>
 
             <div class="d-flex justify-content-between">

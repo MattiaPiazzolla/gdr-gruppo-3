@@ -31,11 +31,18 @@
             @foreach ($characters as $character)
                 <div class="col-3 d-flex justify-content-center">
                     <div class="card" style="width: 18rem;">
-                        <a href="{{ route('characters.show', $character->id) }}" class="text-decoration-none text-dark ">
+                        <a href="{{ route('characters.show', $character->id) }}" class="text-decoration-none text-dark">
                             <h5 class="card-title text-center py-4">{{ $character->name }}</h5>
-                            <img class="card-img-top img-fluid char_img_index"
-                                src="{{ asset($character->type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
-                                alt="{{ $character->name }}">
+                            @if (file_exists(public_path('img/character_images/' . $character->name . '.webp')))
+                                <img src="{{ asset('img/character_images/' . $character->name . '.webp') }}"
+                                    class="img-fluid" alt="{{ $character->name }}">
+                            @elseif (file_exists(public_path('img/character_images/' . $character->name . '.png')))
+                                <img src="{{ asset('img/character_images/' . $character->name . '.png') }}"
+                                    class="img-fluid" alt="{{ $character->name }}">
+                            @else
+                                <img src="{{ asset('img/character_images/placeholder.png') }}" class="img-fluid"
+                                    alt="Immagine non disponibile">
+                            @endif
                         </a>
                         <div class="card-body d-flex flex-column justify-content-between">
                             <p class="card-text text-center">{{ $character->description }}</p>

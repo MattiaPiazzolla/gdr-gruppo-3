@@ -48,8 +48,16 @@
                         </div>
                     </div>
                     <div class="col-7">
-                        <img src="{{ asset($character->type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
-                            alt="{{ $character->name }}" class=" img-fluid">
+                        @if (file_exists(public_path('img/character_images/' . $character->name . '.webp')))
+                            <img src="{{ asset('img/character_images/' . $character->name . '.webp') }}" class="img-fluid"
+                                alt="{{ $character->name }}">
+                        @elseif (file_exists(public_path('img/character_images/' . $character->name . '.png')))
+                            <img src="{{ asset('img/character_images/' . $character->name . '.png') }}" class="img-fluid"
+                                alt="{{ $character->name }}">
+                        @else
+                            <img src="{{ asset('img/character_images/placeholder.png') }}" class="img-fluid"
+                                alt="Immagine non disponibile">
+                        @endif
                     </div>
                     <div class="col-12">
                         <h3>Inventario</h3>

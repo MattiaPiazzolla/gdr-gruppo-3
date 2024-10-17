@@ -33,8 +33,7 @@
                     <div class="card" style="width: 18rem;">
                         <a href="{{ route('items.show', $item->id) }}" class="text-decoration-none text-dark">
                             <h5 class="card-title text-center py-4">{{ $item->name }}</h5>
-                            <img class="card-img-top img-fluid"
-                                src="{{ asset($item->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
+                            <img class="item_show_img" src="{{ asset('img/Items_icons/' . $item->name . '.png') }}"
                                 alt="{{ $item->name }}">
                         </a>
                         <div class="card-body d-flex flex-column justify-content-between">

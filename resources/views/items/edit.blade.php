@@ -13,7 +13,7 @@
                 </ul>
             </div>
         @endif
-        <form action="{{ route('items.update', $item->id) }}" method="POST">
+        <form action="{{ route('items.update', $item->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -46,6 +46,27 @@
             <div class="form-group">
                 <label for="dice">Dadi</label>
                 <input type="text" class="form-control" name="dice" value="{{ old('dice', $item->dice) }}" required>
+            </div>
+
+            <!-- Upload Immagine -->
+            <div class="form-group">
+                <label for="image">Carica un'immagine</label>
+                <input type="file" name="image" class="form-control-file" id="image">
+            </div>
+
+            <!-- Mostra l'immagine attuale -->
+            <div class="form-group">
+                @php
+                    // Percorso immagine corrente
+                    $imagePath = 'img/Items_icons/' . $item->name . '.png';
+                @endphp
+
+                @if (file_exists(public_path($imagePath)))
+                    <p>Immagine attuale:</p>
+                    <img src="{{ asset($imagePath) }}" alt="{{ $item->name }}" width="200">
+                @else
+                    <p>Nessuna immagine disponibile</p>
+                @endif
             </div>
 
             <div class="d-flex justify-content-between">

@@ -17,7 +17,8 @@ class Character extends Model
         "speed",
         "intelligence",
         "life",
-        "type_id"
+        "type_id",
+        'image'
     ];
 
     

@@ -4,46 +4,86 @@
     <div class="container mt-5">
         <h1>Modifica Personaggio</h1>
 
-        <form id="character-form" action="{{ route('characters.update', $character->id) }}" method="POST">
+        <form id="character-form" action="{{ route('characters.update', $character->id) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
+
+            <!-- Nome -->
             <div class="form-group">
                 <label for="name">Nome</label>
                 <input type="text" class="form-control" name="name" value="{{ $character->name }}" required>
+                @error('name')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Descrizione -->
             <div class="form-group">
                 <label for="description">Descrizione</label>
                 <input type="text" class="form-control" name="description" value="{{ $character->description }}"
                     required>
+                @error('description')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Forza -->
             <div class="form-group">
                 <label for="strength">Forza</label>
                 <input type="number" class="form-control" name="strength" value="{{ $character->strength }}" required>
+                @error('strength')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Difesa -->
             <div class="form-group">
                 <label for="defence">Difesa</label>
                 <input type="number" class="form-control" name="defence" value="{{ $character->defence }}" required>
+                @error('defence')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Velocità -->
             <div class="form-group">
                 <label for="speed">Velocità</label>
                 <input type="number" class="form-control" name="speed" value="{{ $character->speed }}" required>
+                @error('speed')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Intelligenza -->
             <div class="form-group">
                 <label for="intelligence">Intelligenza</label>
                 <input type="number" class="form-control" name="intelligence" value="{{ $character->intelligence }}"
                     required>
+                @error('intelligence')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Vita -->
             <div class="form-group">
                 <label for="life">Vita</label>
                 <input type="number" class="form-control" name="life" value="{{ $character->life }}" required>
+                @error('life')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Immagine -->
+            <div class="form-group">
+                <label for="image">Immagine del personaggio</label>
+                <input type="file" name="image" class="form-control">
+                @error('image')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+
+            <!-- Tipo -->
             <div class="form-group mt-3">
                 <label for="type_id">Tipo</label>
                 <select class="form-control" name="type_id" required>
@@ -54,8 +94,12 @@
                         </option>
                     @endforeach
                 </select>
+                @error('type_id')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
 
+            <!-- Oggetti -->
             <div class="row mt-3">
                 <div class="col-md-6">
                     <h5>Oggetti Disponibili:</h5>
@@ -74,6 +118,7 @@
                 </div>
             </div>
 
+            <!-- Submit Button -->
             <div class="d-flex justify-content-between my-5">
                 <button type="submit" class="btn btn-success mt-3">Aggiorna Personaggio</button>
                 <a href="{{ route('characters.index') }}" class="btn btn-danger mt-3">Annulla</a>
