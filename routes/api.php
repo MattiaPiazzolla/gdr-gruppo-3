@@ -2,6 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CharacterApiController;
+use App\Http\Controllers\Api\ItemApiController;
+use App\Http\Controllers\Api\TypeApiController;
+
+use function PHPSTORM_META\type;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/characters', [CharacterApiController::class, 'index'])->name('get_characters');
+Route::get('/items', [ItemApiController::class, 'index'])->name('get_items');
+Route::get('/types', [TypeApiController::class, 'index'])->name('get_types');
