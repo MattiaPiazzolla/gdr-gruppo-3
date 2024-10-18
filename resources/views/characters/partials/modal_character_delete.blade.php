@@ -28,9 +28,9 @@
             const characterId = this.getAttribute('data-character-id');
             const deleteForm = document.getElementById('deleteForm');
             deleteForm.action =
-            `/characters/${characterId}/force-delete`; // Aggiorna l'azione del modulo
+                `/characters/${characterId}/force-delete`;
             const modal = new bootstrap.Modal(document.getElementById('deleteCharacterModal'));
-            modal.show(); // Mostra la modale
+            modal.show();
         });
     });
 </script>
