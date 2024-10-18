@@ -26,7 +26,7 @@
                 <div class="row">
                     <div class="col-12 d-flex justify-content-center">
                         <img src="{{ asset($type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
-                            alt="{{ $type->name }}" class="img-fluid">
+                            alt="{{ $type->name }}" class="img-fluid items-char-show">
                     </div>
                     <div class="col-12">
                         <h5 class="mt-5 mb-3">Descrizione:</h5>

@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Character;
 use App\Models\Item; 
 use App\Models\Type;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage; 
+
 class CharacterController extends Controller
 {
     /**
@@ -16,82 +16,81 @@ class CharacterController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-{
-    $search = $request->input('search');
+    {
+        $search = $request->input('search');
 
-    $characters = Character::when($search, function($query, $search) {
-        return $query->where('name', 'like', "%{$search}%");
-    })->get();
+        // Ottieni i personaggi attivi
+        $characters = Character::when($search, function($query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })->whereNull('deleted_at')->get(); // Aggiungi questa riga per ottenere solo i personaggi attivi
 
-    return view('characters.index', compact('characters'));
-}
+        // Ottieni i personaggi eliminati (soft deleted)
+        $deletedCharacters = Character::onlyTrashed()->get(); // Ottieni i personaggi soft deleted
+
+        return view('characters.index', compact('characters', 'deletedCharacters'));
+    }
     
-
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
-{
-    $types = Type::all(); 
-    $items = Item::all();
-    return view("characters.create", compact('types','items')); 
-}
+    {
+        $types = Type::all(); 
+        $items = Item::all();
+        return view("characters.create", compact('types','items')); 
+    }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
-     */public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'required|string|max:500',
-        'strength' => 'required|integer',
-        'defence' => 'required|integer',
-        'speed' => 'required|integer',
-        'intelligence' => 'required|integer',
-        'life' => 'required|integer',
-        'type_id' => 'required|exists:types,id',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-    ]);
-    
-    // Crea un nuovo personaggio
-    $character = new Character();
-    $character->name = $request->name;
-    $character->description = $request->description;
-    $character->strength = $request->strength;
-    $character->defence = $request->defence;
-    $character->speed = $request->speed;
-    $character->intelligence = $request->intelligence;
-    $character->life = $request->life;
-    $character->type_id = $request->type_id;
+     */
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'strength' => 'required|integer',
+            'defence' => 'required|integer',
+            'speed' => 'required|integer',
+            'intelligence' => 'required|integer',
+            'life' => 'required|integer',
+            'type_id' => 'required|exists:types,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+        
+        // Crea un nuovo personaggio
+        $character = new Character();
+        $character->name = $request->name;
+        $character->description = $request->description;
+        $character->strength = $request->strength;
+        $character->defence = $request->defence;
+        $character->speed = $request->speed;
+        $character->intelligence = $request->intelligence;
+        $character->life = $request->life;
+        $character->type_id = $request->type_id;
 
-    // Salva l'immagine se presente
-    if ($request->hasFile('image')) {
-        $imageName = $character->name . '.' . $request->image->extension();
-        $request->image->move(public_path('img/character_images'), $imageName);
+        // Salva l'immagine se presente
+        if ($request->hasFile('image')) {
+            $imageName = $character->name . '.' . $request->image->extension();
+            $request->image->move(public_path('img/character_images'), $imageName);
+        }
+
+        // Salva il personaggio
+        $character->save();
+
+        // Gestisci l'inventario
+        $items = $request->input('items', []);
+        foreach ($items as $item) {
+            $character->items()->attach($item['id'], ['quantity' => $item['quantity']]);
+        }
+
+        return redirect()->route('characters.index')->with('success', 'Personaggio creato con successo!');
     }
-
-    // Salva il personaggio
-    $character->save();
-
-    // Gestisci l'inventario
-    $items = $request->input('items', []);
-    foreach ($items as $item) {
-        $character->items()->attach($item['id'], ['quantity' => $item['quantity']]);
-    }
-
-    return redirect()->route('characters.index')->with('success', 'Personaggio creato con successo!');
-}
     
-    
-
-
-
-
     /**
      * Display the specified resource.
      *
@@ -122,7 +121,6 @@ class CharacterController extends Controller
         return view('characters.edit', compact('character', 'types', 'items'));
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -133,7 +131,15 @@ class CharacterController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            // ... altre validazioni
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:500',
+            'strength' => 'required|integer',
+            'defence' => 'required|integer',
+            'speed' => 'required|integer',
+            'intelligence' => 'required|integer',
+            'life' => 'required|integer',
+            'type_id' => 'required|exists:types,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
     
         $character = Character::findOrFail($id);
@@ -161,26 +167,63 @@ class CharacterController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Soft delete the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+
+     public function destroy($id)
 {
     $character = Character::findOrFail($id);
+    $character->delete(); // o $character->forceDelete() se vuoi eliminare definitivamente
 
-    
-    $imagePath = public_path('img/character_images/' . $character->name . '.webp'); 
+    return redirect()->route('characters.index')->with('success', 'Personaggio eliminato con successo.');
+}
+    public function softDelete($id)
+    {
+        $character = Character::findOrFail($id);
+        
+        // Soft delete
+        $character->delete();
 
-    
-    if (file_exists($imagePath)) {
-        unlink($imagePath);
+        return redirect()->route('characters.index')->with('success', 'Personaggio spostato nel cestino con successo!');
     }
 
-    
-    $character->delete();
+    /**
+     * Restore the specified resource from soft delete.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        $character = Character::withTrashed()->findOrFail($id);
+        $character->restore();
 
-    return redirect()->route('characters.index')->with('success', 'Personaggio eliminato con successo!');
-}
+        return redirect()->route('characters.index')->with('success', 'Personaggio ripristinato con successo!');
+    }
+
+    /**
+     * Force delete the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function forceDelete($id)
+    {
+        $character = Character::withTrashed()->findOrFail($id);
+
+        // Rimuovi l'immagine associata, se necessario
+        $imagePath = public_path('img/character_images/' . $character->name . '.webp'); 
+
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        // Elimina definitivamente il personaggio
+        $character->forceDelete();
+
+        return redirect()->route('characters.index')->with('success', 'Personaggio eliminato definitivamente con successo!');
+    }
 }

@@ -48,8 +48,8 @@
                         </div>
                     </div>
                     <div class="col-7">
-                        <img class="item_show_img" src="{{ asset('img/Items_icons/' . $item->name . '.png') }}"
-                            alt="{{ $item->name }}">
+                        <img class="item_show_img items-char-show"
+                            src="{{ asset('img/Items_icons/' . $item->name . '.png') }}" alt="{{ $item->name }}">
                     </div>
 
                 </div>

@@ -23,45 +23,49 @@
             </div>
             <div class="card-body p-5">
                 <div class="row">
-                    <div class="col-5">
-                        <h5 class="mt-5 mb-3">Descrizione:</h5>
+                    <div class="col-4">
+                        <h5 class="mt-5 mb-3 fw-bold">Descrizione:</h5>
                         <p class="card-text">{{ $character->description }}</p>
                         <div class="row">
-                            <h5 class="mt-5 mb-3">Statistiche</h5>
-                            <div class="col-6">
+                            <h5 class="mt-5 mb-3 fw-bold">Statistiche:</h5>
+                            <div class="col-4">
 
-                                <p class="fw-bold">Tipo</p>
                                 <p class="fw-bold">Forza</p>
                                 <p class="fw-bold">Difesa</p>
                                 <p class="fw-bold">Velocità</p>
                                 <p class="fw-bold">Intelligenza</p>
                                 <p class="fw-bold">Punti Vita</p>
+                                <p class="fw-bold">Tipo</p>
                             </div>
-                            <div class="col-6">
-                                <p>{{ $character->type->name ?? 'Non definito' }}</p>
+                            <div class="col-8">
                                 <p>{{ $character->strength }}</p>
                                 <p>{{ $character->defence }}</p>
                                 <p>{{ $character->speed }}</p>
                                 <p>{{ $character->intelligence }}</p>
                                 <p>{{ $character->life }}</p>
+                                <p>{{ $character->type->name }}</p>
+                            </div>
+                            <div class="col-12">
+                                <img src="{{ asset($character->type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
+                                    alt="{{ $character->type->name }}" class="img-fluid w-50">
                             </div>
                         </div>
                     </div>
-                    <div class="col-7">
+                    <div class="col-8 m-0 p-0">
                         @if (file_exists(public_path('img/character_images/' . $character->name . '.webp')))
-                            <img src="{{ asset('img/character_images/' . $character->name . '.webp') }}" class="img-fluid"
-                                alt="{{ $character->name }}">
+                            <img src="{{ asset('img/character_images/' . $character->name . '.webp') }}"
+                                class="img-fluid items-char-show" alt="{{ $character->name }}">
                         @elseif (file_exists(public_path('img/character_images/' . $character->name . '.png')))
-                            <img src="{{ asset('img/character_images/' . $character->name . '.png') }}" class="img-fluid"
-                                alt="{{ $character->name }}">
+                            <img src="{{ asset('img/character_images/' . $character->name . '.png') }}"
+                                class="img-fluid items-char-show" alt="{{ $character->name }}">
                         @else
-                            <img src="{{ asset('img/character_images/placeholder.png') }}" class="img-fluid"
-                                alt="Immagine non disponibile">
+                            <img src="{{ asset('img/character_images/placeholder.png') }}"
+                                class="img-fluid items-char-show" alt="Immagine non disponibile">
                         @endif
                     </div>
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-5">
+                            <div class="col-4">
                                 <h3>Inventario</h3>
                                 <ul class="list-unstyled">
                                     @forelse ($character->items as $item)
@@ -71,12 +75,12 @@
                                     @endforelse
                                 </ul>
                             </div>
-                            <div class="col-7">
+                            <div class="col-8 ">
                                 <div class="row">
                                     @forelse ($character->items as $item)
                                         <div class="col-2 g-0">
-                                            <div class="card">
-                                                <img class="item_show_img"
+                                            <div class="">
+                                                <img class="item_show_img items-char-show"
                                                     src="{{ asset('img/Items_icons/' . $item->name . '.png') }}"
                                                     alt="{{ $item->name }}">
                                             </div>
