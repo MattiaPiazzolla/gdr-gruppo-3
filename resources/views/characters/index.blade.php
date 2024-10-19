@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="container my-5">
-        <div class="headerCharacter">
+
+
+        <div class="headerCharacter mb-2">
             <h1>Personaggi</h1>
             <nav class="navbar navbar-light">
             </nav>
@@ -25,6 +27,17 @@
                 </form>
             </div>
         </div>
+
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <!-- Grid View -->
         <div id="gridView" class="row gy-5 gx-0 mt-0 justify-content-center">
@@ -52,19 +65,21 @@
                                 @if ($character->trashed())
                                     <form action="{{ route('characters.restore', $character->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-success m-1">
+                                        <button type="submit" class="btn btn-outline-success ">
                                             Ripristina
                                         </button>
                                     </form>
                                 @else
-                                    <a href="{{ route('characters.edit', $character->id) }}"
-                                        class="btn btn-outline-warning m-1">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </a>
+                                    <div>
+                                        <a href="{{ route('characters.edit', $character->id) }}"
+                                            class="btn btn-outline-warning ">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+                                    </div>
                                     <form action="{{ route('characters.softDelete', $character->id) }}" method="POST"
                                         class="d-inline-block">
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-danger m-1">
+                                        <button type="submit" class="btn btn-outline-danger ">
                                             <i class="bi bi-trash2-fill"></i>
                                         </button>
                                     </form>
@@ -98,15 +113,15 @@
                                 <div class="buttons-card d-flex justify-content-around">
                                     <form action="{{ route('characters.restore', $character->id) }}" method="POST">
                                         @csrf
-                                        <button type="submit" class="btn btn-outline-success m-1">
+                                        <button type="submit" class="btn btn-outline-success">
                                             Ripristina
                                         </button>
                                     </form>
-                                    <form action="{{ route('characters.forceDelete', $character->id) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger m-1">Elimina</button>
-                                    </form>
+                                    <!-- Pulsante per aprire il modale di eliminazione -->
+                                    <button type="button" class="btn btn-outline-danger delete-character"
+                                        data-url="{{ route('characters.forceDelete', $character->id) }}">
+                                        Elimina
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -142,9 +157,10 @@
                                 @else
                                     <a href="{{ route('characters.edit', $character->id) }}"
                                         class="btn btn-warning">Modifica</a>
-                                    <button type="button" class="btn btn-danger delete-character"
-                                        data-character-id="{{ $character->id }}">
-                                        Cancella
+                                    <button type="button" class="btn btn-outline-danger delete-character"
+                                        data-character-id="{{ $character->id }}"
+                                        data-url="{{ route('characters.forceDelete', $character->id) }}">
+                                        Elimina
                                     </button>
                                 @endif
                             </td>
@@ -155,17 +171,5 @@
         </div>
     </div>
 
-    @include('characters.partials.modal_character_delete');
-    <script>
-        document.querySelectorAll('.delete-character').forEach(button => {
-            button.addEventListener('click', function() {
-                const characterId = this.getAttribute('data-character-id');
-                const deleteForm = document.getElementById('deleteForm');
-                deleteForm.action =
-                    `/characters/${characterId}/force-delete`;
-                const modal = new bootstrap.Modal(document.getElementById('deleteCharacterModal'));
-                modal.show();
-            });
-        });
-    </script>
+    @include('characters.partials.modal_character_delete')
 @endsection

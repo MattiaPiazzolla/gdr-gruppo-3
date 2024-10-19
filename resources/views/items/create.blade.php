@@ -21,11 +21,6 @@
             </div>
 
             <div class="form-group">
-                <label for="slug">Slug</label>
-                <input type="text" name="slug" class="form-control" id="slug" required>
-            </div>
-
-            <div class="form-group">
                 <label for="category">Categoria</label>
                 <input type="text" name="category" class="form-control" id="category" required>
             </div>
@@ -52,12 +47,16 @@
 
             <div class="form-group">
                 <label for="image">Carica un'immagine</label>
-                <input type="file" name="image" class="form-control-file" id="image">
+                <input type="file" name="image" class="form-control" accept=".png, .webp">
+                <small class="form-text text-muted">Carica un'immagine in formato .png o .webp</small>
+                @error('image')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-success mt-2">Aggiungi Item</button>
-                <a href="{{ route('characters.index') }}" class="btn btn-danger mt-3">Annulla</a>
+                <a href="{{ route('items.index') }}" class="btn btn-danger mt-3">Annulla</a>
             </div>
         </form>
     </div>

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('cost',10);
             $table->string('dice',20);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

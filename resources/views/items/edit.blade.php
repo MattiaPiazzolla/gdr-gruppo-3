@@ -50,12 +50,16 @@
 
             <!-- Upload Immagine -->
             <div class="form-group">
-                <label for="image">Carica un'immagine</label>
-                <input type="file" name="image" class="form-control-file" id="image">
+                <label for="image">Carica una nuova immagine</label>
+                <input type="file" name="image" class="form-control" accept=".png, .webp">
+                <small class="form-text text-muted">Carica un'immagine in formato .png o .webp</small>
+                @error('image')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
 
             <!-- Mostra l'immagine attuale -->
-            <div class="form-group">
+            <div class="form-group mt-3">
                 @php
                     // Percorso immagine corrente
                     $imagePath = 'img/Items_icons/' . $item->name . '.png';

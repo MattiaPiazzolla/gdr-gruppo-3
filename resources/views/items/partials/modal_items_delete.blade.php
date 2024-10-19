@@ -1,19 +1,22 @@
-<!-- Modal -->
+<!-- Modale di conferma eliminazione Item -->
 <div class="modal fade" id="deleteItemModal" tabindex="-1" aria-labelledby="deleteItemModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteItemModalLabel">Conferma Eliminazione</h5>
+                <h5 class="modal-title fs-5" id="deleteItemModalLabel">Conferma Cancellazione</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Sei sicuro di voler eliminare questo item? L'operazione è irreversibile.
+                Sei sicuro di voler eliminare questo oggetto? Questa operazione è irreversibile.
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annulla</button>
-                <form id="deleteForm" action="" method="POST">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annulla</button>
+                <form action="" method="POST" id="deleteItemForm">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Elimina</button>
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="bi bi-trash2-fill"></i>
+                    </button>
                 </form>
             </div>
         </div>

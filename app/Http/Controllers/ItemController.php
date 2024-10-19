@@ -10,15 +10,20 @@ use Illuminate\Support\Facades\Storage;
 class ItemController extends Controller
 {
     public function index(Request $request)
-    {
-        $search = $request->input('search');
+{
+    $search = $request->input('search');
 
-        $items = Item::when($search, function($query, $search) {
-            return $query->where('name', 'like', "%{$search}%");
-        })->get();
+    // Recupera gli items attivi (non eliminati) e filtra per nome se necessario
+    $items = Item::when($search, function($query, $search) {
+        return $query->where('name', 'like', "%{$search}%")
+                     ->whereNull('deleted_at'); // Solo items non eliminati
+    })->get();
 
-        return view('items.index', compact('items'));
-    }
+    // Recupera gli items eliminati con soft delete
+    $deletedItems = Item::onlyTrashed()->get();
+
+    return view('items.index', compact('items', 'deletedItems'));
+}
 
     public function create()
     {
@@ -34,7 +39,7 @@ class ItemController extends Controller
         'weight' => 'required|numeric',
         'cost' => 'required|numeric',
         'dice' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
     ]);
 
     $item = new Item();
@@ -84,7 +89,7 @@ class ItemController extends Controller
             'weight' => 'required|numeric',
             'cost' => 'required|numeric',
             'dice' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
         ]);
     
         $item = Item::findOrFail($id);
@@ -103,21 +108,46 @@ class ItemController extends Controller
     
         $item->save();
     
-        return redirect()->route('items.index')->with('success', 'Item aggiornato con successo!');
+        return redirect()->route('items.index')->with('success', 'Oggetto aggiornato con successo!');
     }
 
-public function destroy($id)
-{
-    $item = Item::findOrFail($id);
-
-    $imagePath = public_path('img/Items_icons/' . $item->name . '.png');
-
-    if (file_exists($imagePath)) {
-        unlink($imagePath);
+    public function destroy($id)
+    {
+        $item = Item::findOrFail($id);
+        
+        
+        $item->delete();
+    
+        return redirect()->route('items.index')->with('success', 'Oggetto eliminato con successo!');
     }
 
-    $item->delete();
+    public function softDelete($id)
+    {
+        $item = Item::findOrFail($id);
+        $item->delete();
+    
+        return redirect()->route('items.index')->with('success', 'Item eliminato con successo.');
+    }
 
-    return redirect()->route('items.index')->with('success', 'Item eliminato con successo!');
-}
+    public function restore($id)
+    {
+        $item = Item::withTrashed()->findOrFail($id);
+        $item->restore();
+    
+        return redirect()->route('items.index')->with('success', 'Item ripristinato con successo.');
+    }
+
+  public function forceDelete($id)
+  {
+      $item = Item::withTrashed()->findOrFail($id);
+      // Rimuovi l'immagine associata, se necessario
+      $imagePath = public_path('img/Items_icons/' .$item->name . '.webp');
+  
+      if (file_exists($imagePath)) {
+          unlink($imagePath);
+      }
+      $item->forceDelete();
+  
+      return redirect()->route('items.index')->with('success', 'Item eliminato con successo!');
+  }
 }

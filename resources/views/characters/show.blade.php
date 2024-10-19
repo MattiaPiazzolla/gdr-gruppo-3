@@ -14,10 +14,13 @@
                     <div class="col-6 py-1 px-5 d-flex align-items-center justify-content-end" style="height: 75px;">
                         <a href="{{ route('characters.edit', $character->id) }}" class="btn btn-outline-warning m-1"><i
                                 class="bi bi-pencil-square"></i></a>
-                        <button type="button" class="btn btn-outline-danger m-1 delete-character"
-                            data-character-id="{{ $character->id }}">
-                            <i class="bi bi-trash2-fill"></i>
-                        </button>
+                        <form action="{{ route('characters.softDelete', $character->id) }}" method="POST"
+                            class="d-inline-block">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger m-1">
+                                <i class="bi bi-trash2-fill"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -35,7 +38,7 @@
                                 <p class="fw-bold">Velocità</p>
                                 <p class="fw-bold">Intelligenza</p>
                                 <p class="fw-bold">Punti Vita</p>
-                                <p class="fw-bold">Tipo</p>
+                                <p class="fw-bold">Classe</p>
                             </div>
                             <div class="col-8">
                                 <p>{{ $character->strength }}</p>

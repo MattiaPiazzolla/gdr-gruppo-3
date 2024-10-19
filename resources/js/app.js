@@ -6,80 +6,58 @@ import.meta.glob([
     '../img/**'
 ]);
 
-// Funzione per aprire una modale
-function showModal(modalId, actionUrl, formId) {
-    const modal = document.getElementById(modalId);
-    const bootstrapModal = new bootstrap.Modal(modal);
+// SEZIONE TOGGLE VISTA CHARACTERS
 
-    // Seleziona il form all'interno della modale e aggiorna l'azione
-    const form = modal.querySelector(`#${formId}`);
-    if (form) {
-        form.action = actionUrl;
-    }
+const showGridButton = document.getElementById('showGrid');
+const showTableButton = document.getElementById('showTable');
 
-    // Mostra la modale
-    bootstrapModal.show();
-}
+showTableButton.addEventListener('click', function() {
+    document.getElementById('gridView').style.display = 'none';   
+    document.getElementById('tableView').style.display = 'block'; 
 
-// Gestione della modale per i personaggi (characters)
-const buttonsCharacter = document.querySelectorAll('.delete-character');
-buttonsCharacter.forEach((button) => {
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        // Prendi l'ID del personaggio dal data attribute del bottone
-        const characterId = button.getAttribute('data-character-id');
-        showModal('deleteCharacterModal', `/characters/${characterId}`, 'deleteForm');
-    });
+    showTableButton.classList.add('active');
+    showGridButton.classList.remove('active');
 });
 
-// Gestione della modale per gli oggetti (items)
-const buttonsItem = document.querySelectorAll('.delete-item');
-buttonsItem.forEach((button) => {
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
+showGridButton.addEventListener('click', function() {
+    document.getElementById('gridView').style.display = 'flex';  
+    document.getElementById('tableView').style.display = 'none'; 
 
-        // Prendi l'ID dell'item dal data attribute del bottone
-        const itemId = button.getAttribute('data-item-id');
-        showModal('deleteItemModal', `/items/${itemId}`, 'deleteForm');
-    });
+    showGridButton.classList.add('active');
+    showTableButton.classList.remove('active');
 });
 
-// Gestione della modale per i tipi (types)
-const buttonsType = document.querySelectorAll('.delete-type');
-buttonsType.forEach((button) => {
-    button.addEventListener('click', function (e) {
-        e.preventDefault();
+// SELEZIONE E CANCELLAZIONE DEI CHARACTERS
+const deleteButtons = document.querySelectorAll('.delete-character');
 
-        // Prendi l'ID del tipo dal data attribute del bottone
-        const typeId = button.getAttribute('data-type-id');
-        showModal('deleteTypeModal', `/types/${typeId}`, 'deleteTypeForm'); 
+deleteButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const deleteUrl = button.getAttribute('data-url');
+        console.log("URL di eliminazione:", deleteUrl);
+
+        const modal = new bootstrap.Modal(document.getElementById('deleteCharacterModal'));
+        modal.show();
+
+        const deleteForm = document.getElementById('deleteCharacterForm');
+        deleteForm.setAttribute('action', deleteUrl);
     });
 });
 
 
-// SEZIOINE TOGGLE VISTA CHARATER
+// SELEZIONE E CANCELLAZIONE DEI ITEMS
+const deleteItemButtons = document.querySelectorAll('.delete-item');
 
-        const showGridButton = document.getElementById('showGrid');
-        const showTableButton = document.getElementById('showTable');
+deleteItemButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const deleteUrl = button.getAttribute('data-url');
+        console.log("URL di eliminazione:", deleteUrl);
 
-        showTableButton.addEventListener('click', function() {
-            document.getElementById('gridView').style.display = 'none';   
-            document.getElementById('tableView').style.display = 'block'; 
+        const modal = new bootstrap.Modal(document.getElementById('deleteItemModal'));
+        modal.show();
 
-            showTableButton.classList.add('active');
-            showGridButton.classList.remove('active');
-        });
-
-        
-        showGridButton.addEventListener('click', function() {
-            document.getElementById('gridView').style.display = 'flex';  
-            document.getElementById('tableView').style.display = 'none'; 
-
-            
-            showGridButton.classList.add('active');
-            showTableButton.classList.remove('active');
-        });
-
-
-        
+        const deleteForm = document.getElementById('deleteItemForm');
+        deleteForm.setAttribute('action', deleteUrl);
+    });
+});
