@@ -3,38 +3,44 @@
 @section('content')
     <div class="container my-5">
 
-
-        <div class="headerCharacter mb-2">
+        <div class="headerCharacter">
             <h1>Personaggi</h1>
-            <nav class="navbar navbar-light">
-            </nav>
-            <div class="d-flex mt-3 justify-content-between">
-                <div>
-                    <button id="showGrid" class="btn me-2 btn-outline-dark active">
+            <div class="row">
+                <div class="col-12">
+                    <div class="row mt-3 justify-content-between">
+                        <div class="col-12 col-md-6 my-3">
+                            <a href="{{ route('characters.create') }}" class="btn btn-outline-success me-2 w-100 ">Aggiungi
+                                Personaggio</a>
+                        </div>
+                        <div class="col-12 col-md-6 my-3">
+                            <form action="{{ route('characters.index') }}" method="GET" class="w-100">
+                                <div class="d-flex">
+                                    <input name="search" class="form-control me-2 w-100 border-2" type="search"
+                                        placeholder="Cerca..." aria-label="Search" value="{{ request('search') }}">
+                                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Cerca</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-10 mt-3">
+                    <button id="showGrid" class="btn me-2 btn-outline-dark active btn-view-format">
                         <i class="bi bi-card-image"></i>
                     </button>
-                    <button id="showTable" class="btn btn-outline-dark me-2">
+                    <button id="showTable" class="btn btn-outline-dark me-2 btn-view-format">
                         <i class="bi bi-table"></i>
                     </button>
-                    <a href="{{ route('characters.create') }}" class="btn btn-outline-success me-2">Aggiungi Personaggio</a>
                 </div>
-                <form action="{{ route('characters.index') }}" method="GET" class="w-50">
-                    <div class="d-flex">
-                        <input name="search" class="form-control me-2 w-100 border-2" type="search" placeholder="Cerca..."
-                            aria-label="Search" value="{{ request('search') }}">
-                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Cerca</button>
-                    </div>
-                </form>
             </div>
         </div>
 
         @if (session('success'))
-            <div class="alert alert-success">
+            <div class="my-3 alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
         @if (session('error'))
-            <div class="alert alert-danger">
+            <div class="my-3 alert alert-danger">
                 {{ session('error') }}
             </div>
         @endif
@@ -42,7 +48,7 @@
         <!-- Grid View -->
         <div id="gridView" class="row gy-5 gx-0 mt-0 justify-content-center">
             @foreach ($characters as $character)
-                <div class="col-3 d-flex justify-content-center">
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3 d-flex justify-content-center">
                     <div class="card" style="width: 18rem;">
                         <a href="{{ route('characters.show', $character->id) }}" class="text-decoration-none text-dark">
                             <h5 class="card-title text-center py-4">{{ $character->name }}</h5>
@@ -89,45 +95,48 @@
                     </div>
                 </div>
             @endforeach
-            <h2>Personaggi Eliminati</h2>
-            <div class="row gy-5 gx-0 mt-0 justify-content-center">
-                @foreach ($deletedCharacters as $character)
-                    <div class="col-3 d-flex justify-content-center">
-                        <div class="card" style="width: 18rem;">
-                            <a href="{{ route('characters.show', $character->id) }}"
-                                class="text-decoration-none text-dark">
-                                <h5 class="card-title text-center py-4">{{ $character->name }}</h5>
-                                @if (file_exists(public_path('img/character_images/' . $character->name . '.webp')))
-                                    <img src="{{ asset('img/character_images/' . $character->name . '.webp') }}"
-                                        class="img-fluid" alt="{{ $character->name }}">
-                                @elseif (file_exists(public_path('img/character_images/' . $character->name . '.png')))
-                                    <img src="{{ asset('img/character_images/' . $character->name . '.png') }}"
-                                        class="img-fluid" alt="{{ $character->name }}">
-                                @else
-                                    <img src="{{ asset('img/character_images/placeholder.png') }}" class="img-fluid"
-                                        alt="Immagine non disponibile">
-                                @endif
-                            </a>
-                            <div class="card-body d-flex flex-column justify-content-between">
-                                <p class="card-text text-center">{{ $character->description }}</p>
-                                <div class="buttons-card d-flex justify-content-around">
-                                    <form action="{{ route('characters.restore', $character->id) }}" method="POST">
-                                        @csrf
-                                        <button type="submit" class="btn btn-outline-success">
-                                            Ripristina
+
+            @if ($deletedCharacters->isNotEmpty())
+                <h2>Personaggi Eliminati</h2>
+                <div class="row gy-5 gx-0 mt-0 justify-content-center">
+                    @foreach ($deletedCharacters as $character)
+                        <div class="col-12 col-md-6 col-lg-4 col-xl-3 d-flex justify-content-center">
+                            <div class="card" style="width: 18rem;">
+                                <a href="{{ route('characters.show', $character->id) }}"
+                                    class="text-decoration-none text-dark">
+                                    <h5 class="card-title text-center py-4">{{ $character->name }}</h5>
+                                    @if (file_exists(public_path('img/character_images/' . $character->name . '.webp')))
+                                        <img src="{{ asset('img/character_images/' . $character->name . '.webp') }}"
+                                            class="img-fluid" alt="{{ $character->name }}">
+                                    @elseif (file_exists(public_path('img/character_images/' . $character->name . '.png')))
+                                        <img src="{{ asset('img/character_images/' . $character->name . '.png') }}"
+                                            class="img-fluid" alt="{{ $character->name }}">
+                                    @else
+                                        <img src="{{ asset('img/character_images/placeholder.png') }}" class="img-fluid"
+                                            alt="Immagine non disponibile">
+                                    @endif
+                                </a>
+                                <div class="card-body d-flex flex-column justify-content-between">
+                                    <p class="card-text text-center">{{ $character->description }}</p>
+                                    <div class="buttons-card d-flex justify-content-around">
+                                        <form action="{{ route('characters.restore', $character->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-outline-success">
+                                                Ripristina
+                                            </button>
+                                        </form>
+                                        <!-- Pulsante per aprire il modale di eliminazione -->
+                                        <button type="button" class="btn btn-outline-danger delete-character"
+                                            data-url="{{ route('characters.forceDelete', $character->id) }}">
+                                            Elimina
                                         </button>
-                                    </form>
-                                    <!-- Pulsante per aprire il modale di eliminazione -->
-                                    <button type="button" class="btn btn-outline-danger delete-character"
-                                        data-url="{{ route('characters.forceDelete', $character->id) }}">
-                                        Elimina
-                                    </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         <!-- Table View -->
@@ -155,12 +164,12 @@
                                         <button type="submit" class="btn btn-success">Ripristina</button>
                                     </form>
                                 @else
-                                    <a href="{{ route('characters.edit', $character->id) }}"
-                                        class="btn btn-warning">Modifica</a>
-                                    <button type="button" class="btn btn-outline-danger delete-character"
+                                    <a href="{{ route('characters.edit', $character->id) }}" class="btn btn-warning"><i
+                                            class="bi bi-pencil-square"></i></a>
+                                    <button type="button" class="btn btn-danger delete-character"
                                         data-character-id="{{ $character->id }}"
                                         data-url="{{ route('characters.forceDelete', $character->id) }}">
-                                        Elimina
+                                        <i class="bi bi-trash2-fill"></i>
                                     </button>
                                 @endif
                             </td>

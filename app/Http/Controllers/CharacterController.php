@@ -22,10 +22,10 @@ class CharacterController extends Controller
         // Ottieni i personaggi attivi
         $characters = Character::when($search, function($query, $search) {
             return $query->where('name', 'like', "%{$search}%");
-        })->whereNull('deleted_at')->get(); // Aggiungi questa riga per ottenere solo i personaggi attivi
+        })->whereNull('deleted_at')->get(); 
 
         // Ottieni i personaggi eliminati (soft deleted)
-        $deletedCharacters = Character::onlyTrashed()->get(); // Ottieni i personaggi soft deleted
+        $deletedCharacters = Character::onlyTrashed()->get(); 
 
         return view('characters.index', compact('characters', 'deletedCharacters'));
     }
@@ -176,7 +176,7 @@ class CharacterController extends Controller
      public function destroy($id)
 {
     $character = Character::findOrFail($id);
-    $character->delete(); // o $character->forceDelete() se vuoi eliminare definitivamente
+    $character->delete(); 
 
     return redirect()->route('characters.index')->with('success', 'Personaggio eliminato con successo.');
 }

@@ -10,8 +10,12 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $characters = Character::all();
-        return view('home', compact('characters')); 
+        // Recupera gli ultimi 3 personaggi, oggetti e tipi
+        $latestCharacters = Character::orderBy('created_at', 'desc')->take(3)->get();
+        $latestItems = Item::orderBy('created_at', 'desc')->take(3)->get();
+        $latestTypes = Type::orderBy('created_at', 'desc')->take(3)->get();
+
+        return view('home', compact('latestCharacters', 'latestItems', 'latestTypes')); 
     }
 
     public function search(Request $request)

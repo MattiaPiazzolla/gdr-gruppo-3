@@ -23,6 +23,9 @@ Route::delete('/characters/{id}/force-delete', [CharacterController::class, 'for
 
 // Rotte per i tipi
 Route::resource('types', TypeController::class);
+Route::post('/types/{id}/soft-delete', [TypeController::class, 'softDelete'])->name('types.softDelete');
+Route::post('/types/{id}/restore', [TypeController::class, 'restore'])->name('types.restore');
+Route::delete('/types/{id}/force-delete', [TypeController::class, 'forceDelete'])->name('types.forceDelete');
 
 
 
@@ -30,4 +33,4 @@ Route::resource('types', TypeController::class);
 Route::resource('items', ItemController::class);
 Route::post('/items/{id}/soft-delete', [ItemController::class, 'softDelete'])->name('items.softDelete');
 Route::post('/items/{id}/restore', [ItemController::class, 'restore'])->name('items.restore');
-Route::delete('/items/{id}', [ItemController::class, 'forceDelete'])->name('items.forceDelete');
+Route::delete('/items/{id}/force-delete', [ItemController::class, 'forceDelete'])->name('items.forceDelete');

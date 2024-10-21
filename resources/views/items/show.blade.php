@@ -15,10 +15,12 @@
                         <a href="{{ route('items.edit', $item->id) }}" class="btn btn-outline-warning m-1">
                             <i class="bi bi-pencil-square"></i>
                         </a>
-                        <button type="button" class="btn btn-outline-danger m-1 delete-item"
-                            data-item-id="{{ $item->id }}">
-                            <i class="bi bi-trash2-fill"></i>
-                        </button>
+                        <form action="{{ route('items.softDelete', $item->id) }}" method="POST" class="d-inline-block">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger">
+                                <i class="bi bi-trash2-fill"></i>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

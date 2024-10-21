@@ -64,7 +64,7 @@ class ItemController extends Controller
 
     $item->save();
 
-    return redirect()->route('items.index')->with('success', 'Item creato con successo!');
+    return redirect()->route('items.index')->with('success', 'Oggetto creato con successo!');
 }
 
 
@@ -126,7 +126,7 @@ class ItemController extends Controller
         $item = Item::findOrFail($id);
         $item->delete();
     
-        return redirect()->route('items.index')->with('success', 'Item eliminato con successo.');
+        return redirect()->route('items.index')->with('success', 'Oggetto spostato nel cestino con successo.');
     }
 
     public function restore($id)
@@ -134,20 +134,21 @@ class ItemController extends Controller
         $item = Item::withTrashed()->findOrFail($id);
         $item->restore();
     
-        return redirect()->route('items.index')->with('success', 'Item ripristinato con successo.');
+        return redirect()->route('items.index')->with('success', 'Oggetto ripristinato con successo.');
     }
 
-  public function forceDelete($id)
-  {
-      $item = Item::withTrashed()->findOrFail($id);
-      // Rimuovi l'immagine associata, se necessario
-      $imagePath = public_path('img/Items_icons/' .$item->name . '.webp');
-  
-      if (file_exists($imagePath)) {
-          unlink($imagePath);
-      }
-      $item->forceDelete();
-  
-      return redirect()->route('items.index')->with('success', 'Item eliminato con successo!');
-  }
+    public function forceDelete($id)
+    {
+        $item = Item::withTrashed()->findOrFail($id);
+
+        $imagePath = public_path('img/Items_icons/' . $item->name . '.' . $item->image); 
+
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+
+        $item->forceDelete();
+    
+        return redirect()->route('items.index')->with('success', 'Oggetto eliminato definitivamente!');
+    }
 }

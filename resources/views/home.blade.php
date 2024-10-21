@@ -21,5 +21,84 @@
             </div>
         </div>
 
+        <!-- Sezione per gli ultimi 3 personaggi -->
+        <div class="my-5">
+            <h3 class="text-center">Ultimi Personaggi</h3>
+            <div class="row">
+                @foreach ($latestCharacters as $character)
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <a href="{{ route('characters.show', $character->id) }}" class="text-decoration-none text-dark">
+                                @if (file_exists(public_path('img/character_images/' . $character->name . '.webp')))
+                                    <img src="{{ asset('img/character_images/' . $character->name . '.webp') }}"
+                                        class="img-fluid" alt="{{ $character->name }}">
+                                @elseif (file_exists(public_path('img/character_images/' . $character->name . '.png')))
+                                    <img src="{{ asset('img/character_images/' . $character->name . '.png') }}"
+                                        class="img-fluid" alt="{{ $character->name }}">
+                                @else
+                                    <img src="{{ asset('img/character_images/placeholder.png') }}" class="img-fluid"
+                                        alt="Immagine non disponibile">
+                                @endif
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{ $character->name }}</h5>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Sezione per gli ultimi 3 oggetti -->
+        <div class="my-5">
+            <h3 class="text-center">Ultimi Oggetti</h3>
+            <div class="row">
+                @foreach ($latestItems as $item)
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <a href="{{ route('items.show', $item->id) }}" class="text-decoration-none text-dark">
+                                @if (file_exists(public_path('img/Items_icons/' . $item->name . '.webp')))
+                                    <img src="{{ asset('img/Items_icons/' . $item->name . '.webp') }}"
+                                        class="img-fluid w-100" alt="{{ $item->name }}">
+                                @elseif (file_exists(public_path('img/Items_icons/' . $item->name . '.png')))
+                                    <img src="{{ asset('img/Items_icons/' . $item->name . '.png') }}"
+                                        class="img-fluid w-100" alt="{{ $item->name }}">
+                                @else
+                                    <img src="{{ asset('img/Items_icons/placeholder.png') }}" class="img-fluid w-100"
+                                        alt="Immagine non disponibile">
+                                @endif
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{ $item->name }}</h5>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- Sezione per gli ultimi 3 tipi -->
+        <div class="my-5">
+            <h3 class="text-center">Ultimi Tipi</h3>
+            <div class="row">
+                @foreach ($latestTypes as $type)
+                    <div class="col-md-4 mb-3">
+                        <div class="card">
+                            <a href="{{ route('types.show', $type->id) }}" class="text-decoration-none text-dark">
+                                <img class="card-img-top img-type img-fluid"
+                                    src="{{ asset($type->image ?? 'https://placehold.co/400x400?text=Missing+Img') }}"
+                                    alt="{{ $type->name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">{{ $type->name }}</h5>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
     </div>
 @endsection

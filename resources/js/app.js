@@ -51,13 +51,30 @@ const deleteItemButtons = document.querySelectorAll('.delete-item');
 deleteItemButtons.forEach(button => {
     button.addEventListener('click', function(e) {
         e.preventDefault();
-        const deleteUrl = button.getAttribute('data-url');
+        const deleteUrl = button.getAttribute('data-url'); // Recupera l'URL di eliminazione
         console.log("URL di eliminazione:", deleteUrl);
 
-        const modal = new bootstrap.Modal(document.getElementById('deleteItemModal'));
+        const modal = new bootstrap.Modal(document.getElementById('deleteItemModal')); 
         modal.show();
 
         const deleteForm = document.getElementById('deleteItemForm');
-        deleteForm.setAttribute('action', deleteUrl);
+        deleteForm.setAttribute('action', deleteUrl); // Imposta l'URL nel form della modale
+    });
+});
+
+// SEZIONE CANCELLAZIONE DEI TYPES
+const deleteTypeButtons = document.querySelectorAll('.delete-type');
+
+deleteTypeButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+        e.preventDefault();
+        const deleteUrl = button.getAttribute('data-url'); // Recupera l'URL di eliminazione
+        console.log("URL di eliminazione:", deleteUrl);
+
+        const modal = new bootstrap.Modal(document.getElementById('deleteTypeModal')); 
+        modal.show();
+
+        const deleteForm = document.getElementById('deleteTypeForm');
+        deleteForm.setAttribute('action', deleteUrl); // Imposta l'URL nel form della modale
     });
 });

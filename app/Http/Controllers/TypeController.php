@@ -19,9 +19,11 @@ class TypeController extends Controller
 
     $types = Type::when($search, function($query, $search) {
         return $query->where('name', 'like', "%{$search}%");
-    })->get();
+    })->whereNull('deleted_at')->get(); 
 
-    return view('types.index', compact('types'));
+    $deletedTypes = Type::onlyTrashed()->get();
+
+    return view('types.index', compact('types', 'deletedTypes'));
 }
 
     /**
@@ -92,7 +94,7 @@ class TypeController extends Controller
         ]);
 
         $type->update($request->all());
-        return redirect()->route('types.index')->with('success', 'Type updated successfully.');
+        return redirect()->route('types.index')->with('success', 'Il tipo è stato aggiornato con successo.');
     }
     
     /**
@@ -102,10 +104,33 @@ class TypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-{
-    $type = Type::findOrFail($id);
-    $type->delete();
+    {
+        $type = Type::findOrFail($id); 
+        $type->delete(); 
 
-    return redirect()->route('types.index')->with('success', 'Tipo eliminato con successo.');
-}
+        return redirect()->route('types.index')->with('success', 'Tipo eliminato con successo.');
+    }
+
+    public function softDelete($id)
+    {
+        $type = Type::findOrFail($id);
+        $type->delete();
+        return redirect()->route('types.index')->with('success', 'Tipo spostato nel cestino con successo!');
+    }
+
+    public function restore($id)
+    {
+        $type = Type::withTrashed()->findOrFail($id);
+        $type->restore();
+        return redirect()->route('types.index')->with('success', 'Tipo ripristinato con successo!');
+    }
+
+    public function forceDelete($id)
+    {
+        $type = Type::withTrashed()->findOrFail($id);
+
+
+        $type->forceDelete();
+        return redirect()->route('types.index')->with('success', 'Tipo eliminato definitivamente!');
+    }
 }

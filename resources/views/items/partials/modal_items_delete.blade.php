@@ -11,11 +11,12 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Annulla</button>
-                <form action="" method="POST" id="deleteItemForm">
+                <!-- Form con token CSRF e metodo DELETE -->
+                <form id="deleteItemForm" method="POST" class="d-inline-block">
                     @csrf
-                    @method('DELETE')
+                    @method('DELETE') <!-- Questo metodo indica che si sta facendo una richiesta DELETE -->
                     <button type="submit" class="btn btn-outline-danger">
-                        <i class="bi bi-trash2-fill"></i>
+                        Elimina
                     </button>
                 </form>
             </div>
