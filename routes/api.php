@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CharacterApiController;
 use App\Http\Controllers\Api\ItemApiController;
 use App\Http\Controllers\Api\TypeApiController;
+use App\Http\Controllers\Api\CombatController;
 
 use function PHPSTORM_META\type;
 
@@ -26,3 +27,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/characters', [CharacterApiController::class, 'index'])->name('get_characters');
 Route::get('/items', [ItemApiController::class, 'index'])->name('get_items');
 Route::get('/types', [TypeApiController::class, 'index'])->name('get_types');
+
+// Rotta per avviare un combattimento
+Route::get('/combat/start/{character1Id}/{character2Id}', [CombatController::class, 'startCombat']);

@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Character;
+use Illuminate\Support\Facades\Log;
 
 class CombatController extends Controller
 {
     public function startCombat($character1Id, $character2Id)
     {
         // Trova i personaggi e le loro armi
-        $character1 = Character::with('item')->find($character1Id);
-        $character2 = Character::with('item')->find($character2Id);
+        $character1 = Character::find($character1Id);
+        $character2 = Character::find($character2Id);
+
+
 
         // Controlla se i personaggi esistono
         if (!$character1 || !$character2) {
